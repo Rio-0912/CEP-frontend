@@ -8,6 +8,7 @@ const Login = (props) => {
     let history = useNavigate();
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
         try {
             const response = await fetch(`http://localhost:9000/api/auth/login`, {
@@ -25,14 +26,24 @@ const Login = (props) => {
             console.log(json);
 
             if (json.success) {
-                localStorage.setItem('token', json.data.departmentId); // Assuming departmentId is the correct key
-                history('/home');
+                if (json.data.authority === 'Principal' || json.data.authority === 'Coordinator') {
+                    localStorage.setItem('userId', json.data.userId);
+                    localStorage.setItem('authority', json.data.authority);
+                } else if (json.data.hodAccess) {
+                    localStorage.setItem('departmentId', json.data.departmentId);
+                }
+
+                // Redirect based on roles
+                if (json.data.authority === 'Principal' || json.data.hodAccess|| json.data.authority === 'Coordinator') {
+                    history('/home');
+                }
             } else {
                 console.log('Authentication failed');
             }
         } catch (error) {
             console.error('Error during login:', error);
         }
+
     };
 
     const onChange = (e) => {
@@ -59,20 +70,17 @@ const Login = (props) => {
                                 <p className=" mb-5">Please enter your login and password!</p>
 
                                 <div className="form-outline form-white mb-4">
-                                    <input type="email" id="typeEmailX" className="form-control form-control-lg" onChange={onChange} name='email' value={credentials.email}/>
+                                    <input type="email" id="typeEmailX" className="form-control form-control-lg" onChange={onChange} name='email' value={credentials.email} />
                                     <label className="form-label" htmlFor="typeEmailX">Email</label>
                                 </div>
 
                                 <div className="form-outline form-white mb-4">
-                                    <input type="password" id="typePasswordX" className="form-control form-control-lg" onChange={onChange} name='password' value={credentials.password}/>
+                                    <input type="password" id="typePasswordX" className="form-control form-control-lg" onChange={onChange} name='password' value={credentials.password} />
                                     <label className="form-label" htmlFor="typePasswordX">Password</label>
                                 </div>
                                 <button className="btn btn-outline-dark btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
                             </div>
-                            <div>
-                                <p className="mb-0">Don't have an account? <a href="/" className=" fw-bold">Sign Up</a>
-                                </p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
