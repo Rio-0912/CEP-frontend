@@ -21,119 +21,153 @@ const BatchItem = () => {
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                            <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr >
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         <tr>
                             <td>CEP/IT/B02</td>
                             <td>270</td>
                             <td>fning</td>
                             <td>asd tsccge</td>
-                            <td> <Link class="fa-solid fa-arrow-right btn btn-outline-dark"></Link></td>
+                            <td>  <Link class="fa-solid fa-trash btn btn-outline-dark mx-1"></Link>
+                           <Link class="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                            </td>
                         </tr>
                         
 

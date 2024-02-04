@@ -1,9 +1,16 @@
 // DeptItem.jsx
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DeptItem = ({ depts, deleteDept, getDepts }) => {
+    const navigate = useNavigate()
+    const goingToCourseWithId = (deptId) =>{
+        console.log('i amclickd ');
+        localStorage.setItem('departmentId', deptId);
+        navigate('/course')
+    }
+
     const handleDelete = async (deptId) => {
         try {
             // Make API call to delete department
@@ -41,7 +48,7 @@ const DeptItem = ({ depts, deleteDept, getDepts }) => {
                                 <i className='fa-solid fa-trash'></i>
                             </button>
                            
-                            <Link to='/course' className='btn mx-2 btn-outline-dark'>
+                            <Link onClick={()=>goingToCourseWithId(item._id)} className='btn mx-2 btn-outline-dark' to={'/course'}>
                                View <i className="fa-solid fa-arrow-right"></i>
                             </Link>
                         </div>

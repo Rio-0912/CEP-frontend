@@ -9,7 +9,7 @@ const Modal = ({ addDept }) => {
     // Create a ref for the modal element
     const modalRef = useRef();
 
-    const getsems = async (e) => {
+    const addDepartment = async (e) => {
         e.preventDefault();
 
         try {
@@ -50,7 +50,7 @@ const Modal = ({ addDept }) => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ref={modalRef}></button>
                         </div>
                         <div className="modal-body">
-                            <form onSubmit={getsems}>
+                            <form onSubmit={addDepartment}>
                                 <div className="mb-3">
                                     <label htmlFor="exampleInputEmail1" className="form-label">Department Name</label>
                                     <input
