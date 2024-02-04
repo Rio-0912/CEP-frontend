@@ -8,8 +8,8 @@ const Navbar = () => {
         localStorage.removeItem('authority')
         localStorage.removeItem('departmentId')
         navigate('/')
-       
-      }
+
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -26,20 +26,16 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/">Link</Link>
                             </li>
-                           
-                        
-                            <li>
-                             
-                            </li>
                         </ul>
 
-                        <button className="btn btn-outline-success mx-2" onClick={logout}>
-                                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                                </button>
+
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
+                        <button className="btn btn-outline-success mx-2" onClick={logout}>
+                            <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
                     </div>
                 </div>
             </nav>

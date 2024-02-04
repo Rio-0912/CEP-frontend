@@ -8,26 +8,26 @@ const CourseModal = ({ addCourseInDept }) => {
 
   const addCourse = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (typeof addCourseInDept !== 'function') {
         throw new Error('addCourseInDept is not a function');
       }
-
-      // Call the addCourseInDept function to handle adding the new course
-      const arg = { name, shortDeptName };
-      addCourseInDept(arg);
-
+  
+      console.log({ name, shortDeptName: localStorage.getItem('shortName') });
+      addCourseInDept({ name, shortDeptName: localStorage.getItem('shortName') });
+  
       // Clear form fields after submitting
       setname('');
-      setshortDeptName('');
-
+      
       // Programmatically close the modal using the ref
       modalRef.current.click();
     } catch (error) {
       console.error("Error adding course:", error);
     }
   };
+  
+  
   return (
     <div>
       <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add course</button>
@@ -47,7 +47,7 @@ const CourseModal = ({ addCourseInDept }) => {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="message-text" className="col-form-label">department Short Name</label>
-                  <input type="text" className="form-control" id="DeptShortName" name='shortDeptName' disabled value={localStorage.getItem('shortName')} onChange={(e) => setshortDeptName(e.target.value)} />
+                  <input type="text" className="form-control" id="DeptShortName" name='shortDeptName' disabled value={localStorage.getItem('shortName')}  />
                 </div>
                 <button type="submit" className="btn btn-primary">Send message</button>
                 <div className="modal-footer">

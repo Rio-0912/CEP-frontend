@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const CourseItem = ({ course, getCourse }) => {
+    const settingCourseIdInLocal = (courseId) => {
+        localStorage.setItem('courseId', courseId)
+    }
+
     const courseDelete = async (courseId) => {
         try {
             // Make API call to delete department
@@ -14,10 +18,9 @@ const CourseItem = ({ course, getCourse }) => {
                     'departmentId': localStorage.getItem('departmentId'),
                 },
             });
-    
             // After successfully deleting, update the department list
             getCourse();
-    
+
             // Check if the server returned an error
             if (response.status !== 200) {
                 console.error("Error deleting department:", response.data);
@@ -35,9 +38,9 @@ const CourseItem = ({ course, getCourse }) => {
                         <div className='card'>
                             <div className='card-body '>
                                 <h5 className='card-title mb-5 mt-2'>{cour.name}</h5>
-                                <Link onClick={()=> courseDelete(cour._id)} className='btn mx-2 btn-outline-dark'>
+                                <Link onClick={() => courseDelete(cour._id)} className='btn mx-2 btn-outline-dark'>
                                     <i className='fa-solid fa-trash'></i></Link>
-                                <Link to='/batch' className='btn mx-2 btn-outline-dark position-absolute  '  >
+                                <Link onClick={() => settingCourseIdInLocal(cour._id)} to='/batch' className='btn mx-2 btn-outline-dark position-absolute  '  >
                                     View <i className="fa-solid fa-arrow-right"></i>
                                 </Link>
                             </div>

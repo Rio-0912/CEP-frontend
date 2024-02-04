@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Auth from '../Middleware/auth';
 import CourseItem from './CourseItem';
 import CourseModal from './CourseModal'; // Make sure to import CourseModal
+import { useNavigate } from 'react-router-dom';
 
 const Course = () => {
     const [course, setcourse] = useState([]);
@@ -60,6 +61,7 @@ const Course = () => {
 
     const addCourseInDept = async (newCourse) => {
         try {
+            console.log(newCourse);
             await axios.post('http://localhost:9000/api/course/createCourse', newCourse, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ const Course = () => {
             console.error("Error adding course:", error);
         }
     };
-
+    const history = useNavigate()
     useEffect(() => {
         getCourse();
         gettingShortNameViaDeptId()
@@ -84,6 +86,7 @@ const Course = () => {
     return (
         <>
             <Navbar />
+            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => history(-2)}></i></div>
             <div className='container my-3'>
                 <h4><Auth /></h4>
                 <h5 className='my-3'> This is "Dept Name"</h5>
