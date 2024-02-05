@@ -31,8 +31,6 @@ const Batches = () => {
 
 
     const getBatches = async () => {
-       
-        
         try {
             const response = await axios.get(`http://localhost:9000/api/batch/getBatches/${courseId}`, {
                 headers: {
@@ -55,19 +53,19 @@ const Batches = () => {
     };
     useEffect(() => {
         getBatches()
-    }, )
+    },)
 
-    
+
 
     return (
         <div>
             <Navbar /><div >
-                <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={()=>history(-1)}></i></div>
+                <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); localStorage.removeItem('courseId') }}></i></div>
                 <div className="container">
                     <h4><Auth /></h4>
-                    Batch name
-                    <BatchModal addBatchViaMain={addBatchViaMain}/>
-                    <BatchItem batch={batch} getBatches={getBatches}  />
+                    <h5 className='my-3'> Course of {localStorage.getItem('courseName')}</h5>
+                    <BatchModal addBatchViaMain={addBatchViaMain} />
+                    <BatchItem batch={batch} getBatches={getBatches} />
 
                 </div>
             </div>

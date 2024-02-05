@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const CourseItem = ({ course, getCourse }) => {
-    const settingCourseIdInLocal = (courseId) => {
+    const settingCourseIdInLocal = (courseId,courseName) => {
         localStorage.setItem('courseId', courseId)
+        localStorage.setItem('courseName', courseName)
+        
     }
 
     const courseDelete = async (courseId) => {
@@ -40,7 +42,7 @@ const CourseItem = ({ course, getCourse }) => {
                                 <h5 className='card-title mb-5 mt-2'>{cour.name}</h5>
                                 <Link onClick={() => courseDelete(cour._id)} className='btn mx-2 btn-outline-dark'>
                                     <i className='fa-solid fa-trash'></i></Link>
-                                <Link onClick={() => settingCourseIdInLocal(cour._id)} to='/batch' className='btn mx-2 btn-outline-dark position-absolute  '  >
+                                <Link onClick={() => settingCourseIdInLocal(cour._id, cour.name)} to='/batch' className='btn mx-2 btn-outline-dark position-absolute  '  >
                                     View <i className="fa-solid fa-arrow-right"></i>
                                 </Link>
                             </div>

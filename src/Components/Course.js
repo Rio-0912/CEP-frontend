@@ -86,10 +86,10 @@ const Course = () => {
     return (
         <>
             <Navbar />
-            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => history(-2)}></i></div>
+            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => {history(-2); localStorage.removeItem('deptName')}}></i></div>
             <div className='container my-3'>
                 <h4><Auth /></h4>
-                <h5 className='my-3'> This is "Dept Name"</h5>
+                <h5 className='my-3'> This is {localStorage.getItem('deptName')}</h5>
                 <CourseModal addCourseInDept={addCourseInDept} />
                 <CourseItem course={course} getCourse={getCourse} />
             </div>

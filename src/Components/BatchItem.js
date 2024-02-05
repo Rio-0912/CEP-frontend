@@ -49,7 +49,7 @@ const BatchItem = ({ getBatches, batch }) => {
                                     <td>{bat.faculty}</td>
                                     <td>
                                         <Link className="fa-solid fa-trash btn btn-outline-dark mx-1" onClick={(e) => batchDelete(bat._id)}></Link>
-                                        <Link className="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'}></Link>
+                                        <Link className="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'} onClick={()=>localStorage.setItem('batchId',bat._id)}></Link>
                                     </td>
                                 </tr>
                             ))}
