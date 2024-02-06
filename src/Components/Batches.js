@@ -59,7 +59,7 @@ const Batches = () => {
 
     return (
         <div>
-            <Navbar /><div >
+           <div >
                 <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); localStorage.removeItem('courseId') }}></i></div>
                 <div className="container">
                     <h4><Auth /></h4>

@@ -85,7 +85,7 @@ const Course = () => {
 
     return (
         <>
-            <Navbar />
+           
             <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => {history(-2); localStorage.removeItem('deptName')}}></i></div>
             <div className='container my-3'>
                 <h4><Auth /></h4>

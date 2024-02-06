@@ -37,7 +37,7 @@ const Home = () => {
   return (
     <>
       <div >
-        <Navbar />
+        
         <div className='container my-3'>
           <h4>Welcome {welcome}</h4>
           <Dept />
