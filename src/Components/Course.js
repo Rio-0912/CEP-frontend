@@ -1,15 +1,14 @@
 // Course.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
 import Auth from '../Middleware/auth';
 import CourseItem from './CourseItem';
 import CourseModal from './CourseModal'; // Make sure to import CourseModal
 import { useNavigate } from 'react-router-dom';
 
-const Course = () => {
+const Course = (props) => {
     const [course, setcourse] = useState([]);
-
+    let { showAlert } = props
     const gettingShortNameViaDeptId = async () => {
         const deptId = localStorage.getItem('departmentId')
         try {
@@ -70,7 +69,7 @@ const Course = () => {
                     'departmentId': localStorage.getItem('departmentId'),
                 },
             });
-
+            showAlert('Course Added successfully ', 'success')
             // After successfully adding, update the course list
             getCourse();
         } catch (error) {
@@ -85,8 +84,8 @@ const Course = () => {
 
     return (
         <>
-           
-            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => {history(-2); localStorage.removeItem('deptName')}}></i></div>
+
+            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-2); localStorage.removeItem('deptName') }}></i></div>
             <div className='container my-3'>
                 <h4><Auth /></h4>
                 <h5 className='my-3'> This is {localStorage.getItem('deptName')}</h5>

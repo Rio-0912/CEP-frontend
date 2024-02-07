@@ -3,8 +3,9 @@ import React from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
-const DeptItem = ({ depts, deleteDept, getDepts }) => {
+const DeptItem = ({ depts, deleteDept, getDepts, showAlert }) => {
     const navigate = useNavigate()
+    
     const goingToCourseWithId = (deptId) =>{
         console.log('i amclickd ');
         localStorage.setItem('departmentId', deptId);
@@ -25,13 +26,15 @@ const DeptItem = ({ depts, deleteDept, getDepts }) => {
     
             // After successfully deleting, update the department list
             getDepts();
-    
+            showAlert('Department Deleted Successful', 'success')
             // Check if the server returned an error
             if (response.status !== 200) {
                 console.error("Error deleting department:", response.data);
+                showAlert('Error is deleting department', 'danger')
             }
         } catch (error) {
             console.error("Error deleting department:", error);
+          
         }
     };
     

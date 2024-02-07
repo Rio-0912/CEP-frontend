@@ -4,11 +4,12 @@ import axios from 'axios';
 import Modal from './Modal';
 import DeptItem from './DeptItem';
 
-const DeptContainer = () => {
+const Dept = (props) => {
     const [depts, setDepts] = useState([]);
-
+    let { showAlert } = props
     const getDepts = async () => {
         try {
+           
             const response = await axios.get(`http://localhost:9000/api/dept/getDept`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,6 +25,7 @@ const DeptContainer = () => {
 
             const newDept = response.data;
             setDepts(newDept);
+
         } catch (error) {
             console.error('Error fetching departments:', error);
         }
@@ -43,8 +45,10 @@ const DeptContainer = () => {
 
             // After successfully adding, update the department list
             getDepts();
+            showAlert('Department Added Successful', 'success')
         } catch (error) {
             console.error("Error adding department:", error);
+
         }
     };
 
@@ -60,10 +64,12 @@ const DeptContainer = () => {
                 },
             });
 
+            showAlert('Department Deleted Successful', 'success')
             // After successfully deleting, update the department list
             getDepts();
         } catch (error) {
             console.error("Error deleting department:", error);
+            showAlert('Error is deleting department', 'danger')
         }
     };
 
@@ -74,9 +80,9 @@ const DeptContainer = () => {
     return (
         <div>
             <Modal addDept={addDept} />
-            <DeptItem depts={depts} deleteDept={deleteDept} getDepts={getDepts} />
+            <DeptItem depts={depts} deleteDept={deleteDept} getDepts={getDepts} showAlert={showAlert} />
         </div>
     );
 };
 
-export default DeptContainer;
+export default Dept;

@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import Navbar from './Navbar';
+import React, { useState, useEffect,useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
-import Alert from './Alert';
+import axios from 'axios';
 
 const AddStudent = (props) => {
     const { showAlert } = props;
     const history = useNavigate();
-    const batchId = localStorage.getItem('batchId')
+
     // State variables for storing input field values
     const [name, setName] = useState('');
     const [DOB, setDOB] = useState('');
@@ -19,7 +17,60 @@ const AddStudent = (props) => {
     const [phoneNo, setPhoneNo] = useState('');
     const [transactionNumber, setTransactionNumber] = useState('');
     const [amount, setAmount] = useState();
+    const [course, setcourse] = useState([]);
+    const [courseId, setcourseId] = useState('');
+    const [batchId, setBatchId] = useState('');
+    const [Batch, setBatch] = useState([]);
+    // eslint-disable-next-line
+    const [loadingBatches, setLoadingBatches] = useState(false);
     const [isCertified, setIsCertified] = useState(false);
+
+    const getCourse = async () => {
+        const deptId = localStorage.getItem('departmentId');
+
+        try {
+            const response = await axios.get(`http://localhost:9000/api/course/getDeptCourses/${deptId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'deptId': localStorage.getItem('departmentId'),
+                    'userID': localStorage.getItem('userId'),
+                    'authority': localStorage.getItem('authority'),
+                },
+            });
+
+            if (!response.data) {
+                throw new Error('No data in the response');
+            }
+
+            const newCourse = response.data;
+            setcourse(newCourse);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+        }
+    };
+
+    const getBatches = useCallback(async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/batch/getBatches/${courseId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'deptId': localStorage.getItem('departmentId'),
+                    'userID': localStorage.getItem('userId'),
+                    'authority': localStorage.getItem('authority'),
+                },
+            });
+
+            if (!response.data) {
+                throw new Error('No data in the response');
+            }
+
+            const newBatch = response.data;
+            setBatch(newBatch);
+        } catch (error) {
+            console.error('Error fetching batches:', error);
+        }
+    }, [courseId]);
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -35,7 +86,7 @@ const AddStudent = (props) => {
                 email,
                 transactionNumber,
                 amount,
-                isCertified
+                isCertified,
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +95,7 @@ const AddStudent = (props) => {
                     'departmentId': localStorage.getItem('departmentId'),
                 },
             });
-            
+
             console.log('Response:', response.data);
             // Check if the request was successful
             if (response.status === 201) {
@@ -55,28 +106,50 @@ const AddStudent = (props) => {
             setAddress('');
             setName('');
             setAmount('');
-            setPhoneNo('')
-            setCity('')
-            setEmail('')
-            setDOB('')
-            setGender('')
-            setIsCertified(false)
-            setPincode('')
-            setTransactionNumber('')
+            setPhoneNo('');
+            setCity('');
+            setEmail('');
+            setDOB('');
+            setGender('');
+            setIsCertified(false);
+            setPincode('');
+            setTransactionNumber('');
+
             showAlert('Student added successfully ', 'success');
-            
+
         } catch (error) {
             // Handle other errors
+            showAlert('The Batch is full kindly add in another Batch', 'danger');
             console.error("Error adding course:", error);
         }
+    };
+
+    useEffect(() => {
+        getCourse();
+    }, []);
+
+    useEffect(() => {
+        if (courseId) {
+            getBatches();
+        }
+    }, [courseId, getBatches]);
+
+    const handleCourseChange = (e) => {
+        setcourseId(e.target.value);
+        console.log(courseId);
+    };
+
+    const handleBatchChange = (e) => {
+        setBatchId(e.target.value);
+        console.log(batchId);
     };
 
 
     return (
         <div>
 
-            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); }}></i></div>
-            <Alert message={'THis is alert'} type={'success'} />
+            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" id='up' onClick={() => { history(-1); }}></i></div>
+
             <div className="container">
                 <div className="row justify-content-center align-items-center ">
                     <div className="col-12 col-lg-9 col-xl-7">
@@ -172,6 +245,35 @@ const AddStudent = (props) => {
                                         </div>
 
                                     </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <label className="form-label select-label mx-2">Course</label>
+                                            <select className="select" value={courseId} onChange={handleCourseChange}>
+                                                <option value="">Select a course</option>
+                                                {course.map((cour) => (
+                                                    <option key={cour._id} value={cour._id}>
+                                                        {cour.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <label className="form-label select-label mx-2">Batch</label>
+                                            <select className="select" value={batchId} onChange={handleBatchChange}>
+                                                {loadingBatches ? (
+                                                    <option value="" disabled>Loading batches...</option>
+                                                ) : (
+                                                    Batch.map((bat) => (
+                                                        <option key={bat._id} value={bat._id}>
+                                                            {bat.name}
+                                                        </option>
+                                                    ))
+                                                )}
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div className="mt-4 pt-2">
                                         <input required className="btn btn-primary btn-lg" type="submit" value="Submit" />
@@ -182,8 +284,8 @@ const AddStudent = (props) => {
                     </div>
                 </div>
 
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

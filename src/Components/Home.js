@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from './Navbar';
+
 
 import { useNavigate } from 'react-router-dom';
 
 import Dept from './Dept';
 
-const Home = () => {
+const Home = (props) => {
   const history = useNavigate();
+  let { showAlert } = props
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
+
     const checkAuthentication = async () => {
       const userId = localStorage.getItem('userId');
       const authority = localStorage.getItem('authority');
@@ -23,7 +25,6 @@ const Home = () => {
         history('/');
       }
     };
-
     checkAuthentication();
   }, [history]);
 
@@ -37,10 +38,11 @@ const Home = () => {
   return (
     <>
       <div >
-        
+
         <div className='container my-3'>
           <h4>Welcome {welcome}</h4>
-          <Dept />
+          
+          <Dept showAlert={showAlert} />
         </div>
       </div>
 

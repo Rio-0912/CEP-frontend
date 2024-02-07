@@ -19,7 +19,7 @@ function App() {
     })
     setTimeout(() => {
       setalert(null)
-    }, 2000);
+    }, 5000);
   }
   return (
     <>
@@ -28,12 +28,12 @@ function App() {
         <Navbar/>
             <Alert alert={alert}/>
           <Routes>
-            <Route path='/home' element={<Home />} />
+            <Route path='/home' element={<Home showAlert={showAlert}/>} />
             <Route path='/addStudent' element={<AddStudent showAlert={showAlert}/>} />
-            <Route path='/student' element={<Students />} />
-            <Route path='/batch' element={<Batches />} />
-            <Route path='/course' element={<Course />} />
-            <Route path='/' element={<Login />} />
+            <Route path='/student' element={<Students showAlert={showAlert}/>} />
+            <Route path='/batch' element={<Batches showAlert={showAlert}/>} />
+            <Route path='/course' element={<Course showAlert={showAlert}/>} />
+            <Route path='/' element={<Login showAlert={showAlert}/>} />
           </Routes>
         </BrowserRouter>
       

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Auth from '../Middleware/auth'
-import Navbar from './Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import StudentItem from './StudentItem'
 import axios from 'axios'
@@ -45,7 +44,7 @@ const Students = () => {
                 Add Student
             </Link>
                 <h4><Auth /></h4>
-                <h5>This is studen</h5>
+                <h5>This is {localStorage.getItem('batchName')}</h5>
                 <StudentItem Students={Students} getStudents={getStudents}/>
             </div>
         </div>

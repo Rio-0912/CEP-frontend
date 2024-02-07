@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     let history = useNavigate();
-
+    let { showAlert } = props
+    console.log(showAlert);
     const handleSubmit = async (e) => {
 
         e.preventDefault();
@@ -34,11 +35,14 @@ const Login = (props) => {
                 }
 
                 // Redirect based on roles
-                if (json.data.authority === 'Principal' || json.data.hodAccess|| json.data.authority === 'Coordinator') {
+                if (json.data.authority === 'Principal' || json.data.hodAccess || json.data.authority === 'Coordinator') {
                     history('/home');
+                    showAlert('Login Successful ', 'success')
                 }
             } else {
                 console.log('Authentication failed');
+                showAlert('Invalid Credentials', 'danger')
+
             }
         } catch (error) {
             console.error('Error during login:', error);
