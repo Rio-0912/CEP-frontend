@@ -95,7 +95,7 @@ const AddStudent = (props) => {
                     'departmentId': localStorage.getItem('departmentId'),
                 },
             });
-
+    
             console.log('Response:', response.data);
             // Check if the request was successful
             if (response.status === 201) {
@@ -114,15 +114,22 @@ const AddStudent = (props) => {
             setIsCertified(false);
             setPincode('');
             setTransactionNumber('');
-
+    
             showAlert('Student added successfully ', 'success');
-
+    
         } catch (error) {
             // Handle other errors
-            showAlert('The Batch is full kindly add in another Batch', 'danger');
-            console.error("Error adding course:", error);
+            if (error.response && error.response.status === 400) {
+                // If it's a 400 Bad Request, display the error message
+                showAlert(error.response.data.error, 'danger');
+            } else {
+                // Display a generic error message for other errors
+                showAlert('An error occurred while adding the student', 'danger');
+                console.error("Error adding student:", error);
+            }
         }
     };
+    
 
     useEffect(() => {
         getCourse();

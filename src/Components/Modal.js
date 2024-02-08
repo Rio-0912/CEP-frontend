@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import Auth from '../Middleware/auth';
 
 const Modal = ({ addDept }) => {
     const [name, setname] = useState('');
@@ -31,6 +32,7 @@ const Modal = ({ addDept }) => {
 
     return (
         <div>
+            <Auth/>
             <div className="d-flex justify-content-end">
                 <button
                     type="button"

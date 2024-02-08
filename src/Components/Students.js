@@ -37,7 +37,7 @@ const Students = () => {
 
     return (
         <div>
-            
+            <Auth/>
             <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); }}></i></div>
             <div className='container'>
             <Link type="button" className="btn btn-outline-dark" to= '/addStudent'>

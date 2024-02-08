@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 import DeptItem from './DeptItem';
+import Auth from '../Middleware/auth';
 
 const Dept = (props) => {
     const [depts, setDepts] = useState([]);
@@ -79,6 +80,7 @@ const Dept = (props) => {
 
     return (
         <div>
+            <Auth/>
             <Modal addDept={addDept} />
             <DeptItem depts={depts} deleteDept={deleteDept} getDepts={getDepts} showAlert={showAlert} />
         </div>

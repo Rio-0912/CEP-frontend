@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-const BatchModal = ({ addBatchViaMain }) => {
+const BatchModal = ({   addBatchViaMain }) => {
     const [name, setname] = useState('');
     const [cost, setcost] = useState('');
     const [time, settime] = useState('');

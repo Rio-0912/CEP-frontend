@@ -1,36 +1,52 @@
-import React, { useState, useEffect } from 'react'
-import Auth from '../Middleware/auth'
-import axios from 'axios'
-import BatchItem from './BatchItem'
-import Navbar from './Navbar'
-import BatchModal from './BatchModal'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import Auth from '../Middleware/auth';
+import axios from 'axios';
+import BatchItem from './BatchItem';
+import BatchModal from './BatchModal';
+import { useNavigate } from 'react-router-dom';
 
-const Batches = () => {
-    const [batch, setbatch] = useState([])
-    const courseId = localStorage.getItem('courseId')
-    const history = useNavigate()
+const Batches = ({ showAlert }) => {
+    
+    const [batch, setbatch] = useState([]);
+    const courseId = localStorage.getItem('courseId');
+    const history = useNavigate();
+    
+    
 
     const addBatchViaMain = async (newBatch) => {
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'userID': localStorage.getItem('userId'),
+                'authority': localStorage.getItem('authority'),
+                'departmentId': localStorage.getItem('departmentId'),
+            };
+    
+            // Add departmentId to headers only if HOD access
+            if (localStorage.getItem('hodAccess')) {
+                headers['deptId'] = localStorage.getItem('departmentId');
+            }
+    
             await axios.post(`http://localhost:9000/api/batch/createBatch/${courseId}`, newBatch, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'userID': localStorage.getItem('userId'),
-                    'authority': localStorage.getItem('authority'),
-                    'departmentId': localStorage.getItem('departmentId'),
-                },
+                headers: headers,
             });
-
-            // After successfully adding, update the course list
-            getBatches()
+    
+            getBatches();
+            showAlert('Batch created Successfully', 'success');
         } catch (error) {
-            console.error("Error adding course:", error);
+            console.log(error.response);
+            if (error.response && error.response.status === 400) {
+                showAlert('Either a batch with the same name exists or You are Under Privileged ', 'danger');
+            } else {
+                console.error("Error adding course:", error);
+            }
         }
     };
+    
 
 
     const getBatches = async () => {
+     
         try {
             const response = await axios.get(`http://localhost:9000/api/batch/getBatches/${courseId}`, {
                 headers: {
@@ -40,7 +56,7 @@ const Batches = () => {
                     'authority': localStorage.getItem('authority'),
                 },
             });
-
+            
             if (!response.data) {
                 throw new Error('No data in the response');
             }
@@ -51,6 +67,10 @@ const Batches = () => {
             console.error('Error fetching courses:', error);
         }
     };
+    // useEffect(() => {
+    //     checkHODAccess();
+    // }, [checkHODAccess]); // Only run once on mount
+
     useEffect(() => {
         getBatches()
     },)
@@ -59,13 +79,13 @@ const Batches = () => {
 
     return (
         <div>
-           <div >
-                <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); localStorage.removeItem('courseId') }}></i></div>
+            <div >
+                <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); }}></i></div>
                 <div className="container">
                     <h4><Auth /></h4>
                     <h5 className='my-3'> Course of {localStorage.getItem('courseName')}</h5>
                     <BatchModal addBatchViaMain={addBatchViaMain} />
-                    <BatchItem batch={batch} getBatches={getBatches} />
+                    <BatchItem batch={batch} getBatches={getBatches} showAlert={showAlert} />
 
                 </div>
             </div>

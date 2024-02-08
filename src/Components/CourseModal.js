@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 
 const CourseModal = ({ addCourseInDept }) => {
   const [name, setname] = useState('');
-  const [shortDeptName, setshortDeptName] = useState('');
+  
   const modalRef = useRef();
 
 

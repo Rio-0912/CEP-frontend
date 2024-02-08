@@ -9,6 +9,12 @@ import { useNavigate } from 'react-router-dom';
 const Course = (props) => {
     const [course, setcourse] = useState([]);
     let { showAlert } = props
+    const navigate = useNavigate()
+   
+
+    // Course.js
+    // ...
+  
     const gettingShortNameViaDeptId = async () => {
         const deptId = localStorage.getItem('departmentId')
         try {
@@ -76,7 +82,7 @@ const Course = (props) => {
             console.error("Error adding course:", error);
         }
     };
-    const history = useNavigate()
+
     useEffect(() => {
         getCourse();
         gettingShortNameViaDeptId()
@@ -84,13 +90,14 @@ const Course = (props) => {
 
     return (
         <>
+            <Auth />
 
-            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-2); localStorage.removeItem('deptName') }}></i></div>
+            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { navigate(-2); localStorage.removeItem('deptName') }}></i></div>
             <div className='container my-3'>
                 <h4><Auth /></h4>
                 <h5 className='my-3'> This is {localStorage.getItem('deptName')}</h5>
                 <CourseModal addCourseInDept={addCourseInDept} />
-                <CourseItem course={course} getCourse={getCourse} />
+                <CourseItem course={course} getCourse={getCourse} showAlert={showAlert} />
             </div>
         </>
     );

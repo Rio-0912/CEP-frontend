@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
-    let history = useNavigate();
-    let { showAlert } = props
-    console.log(showAlert);
-    const handleSubmit = async (e) => {
+    const history = useNavigate();
+    const { showAlert } = props;
 
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await fetch(`http://localhost:9000/api/auth/login`, {
                 method: 'POST',
@@ -22,32 +22,34 @@ const Login = (props) => {
                     password: credentials.password,
                 }),
             });
-
+console.log('check it ');
             const json = await response.json();
             console.log(json);
-
             if (json.success) {
                 if (json.data.authority === 'Principal' || json.data.authority === 'Coordinator') {
                     localStorage.setItem('userId', json.data.userId);
                     localStorage.setItem('authority', json.data.authority);
                 } else if (json.data.hodAccess) {
                     localStorage.setItem('departmentId', json.data.departmentId);
+                    localStorage.setItem('email', json.data.email);
                 }
 
                 // Redirect based on roles
-                if (json.data.authority === 'Principal' || json.data.hodAccess || json.data.authority === 'Coordinator') {
+                if (json.data.authority === 'Principal') {
                     history('/home');
-                    showAlert('Login Successful ', 'success')
+                    showAlert('Login Successful ', 'success');
+                } else if (json.data.hodAccess) {
+                    history('/course');
+                } else if (json.data.authority === 'Coordinator') {
+                    history('/addStudent');
                 }
             } else {
                 console.log('Authentication failed');
-                showAlert('Invalid Credentials', 'danger')
-
+                showAlert('Invalid Credentials', 'danger');
             }
         } catch (error) {
             console.error('Error during login:', error);
         }
-
     };
 
     const onChange = (e) => {

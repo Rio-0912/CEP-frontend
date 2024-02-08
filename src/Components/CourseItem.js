@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-const CourseItem = ({ course, getCourse }) => {
+const CourseItem = ({ course, getCourse , showAlert}) => {
     const settingCourseIdInLocal = (courseId,courseName) => {
         localStorage.setItem('courseId', courseId)
         localStorage.setItem('courseName', courseName)
@@ -27,6 +27,7 @@ const CourseItem = ({ course, getCourse }) => {
             if (response.status !== 200) {
                 console.error("Error deleting department:", response.data);
             }
+            showAlert('Course Deleted Successfully', 'success')
         } catch (error) {
             console.error("Error deleting department:", error);
         }
