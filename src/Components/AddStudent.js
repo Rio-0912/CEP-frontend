@@ -16,7 +16,7 @@ const AddStudent = (props) => {
     const [email, setEmail] = useState('');
     const [phoneNo, setPhoneNo] = useState('');
     const [transactionNumber, setTransactionNumber] = useState('');
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState(0);
     const [course, setcourse] = useState([]);
     const [courseId, setcourseId] = useState('');
     const [batchId, setBatchId] = useState('');
@@ -74,6 +74,8 @@ const AddStudent = (props) => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+        console.log(' i got clikecd');
+        window.scrollTo(0, 0)
         try {
             const response = await axios.post(`http://localhost:9000/api/student/createStudent/${batchId}`, {
                 name,
@@ -90,9 +92,9 @@ const AddStudent = (props) => {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'userID': localStorage.getItem('userId'),
+                    'deptId': localStorage.getItem('departmentId'),
+                    'userId': localStorage.getItem('userId'),
                     'authority': localStorage.getItem('authority'),
-                    'departmentId': localStorage.getItem('departmentId'),
                 },
             });
     
@@ -121,6 +123,7 @@ const AddStudent = (props) => {
             // Handle other errors
             if (error.response && error.response.status === 400) {
                 // If it's a 400 Bad Request, display the error message
+
                 showAlert(error.response.data.error, 'danger');
             } else {
                 // Display a generic error message for other errors

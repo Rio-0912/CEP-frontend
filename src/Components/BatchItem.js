@@ -12,7 +12,7 @@ const BatchItem = ({ getBatches, batch, showAlert }) => {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),
                     'authority': localStorage.getItem('authority'),
-                    'departmentId': localStorage.getItem('departmentId'),
+                    'deptId': localStorage.getItem('departmentId'),
                 },
             });
 

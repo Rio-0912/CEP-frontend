@@ -58,7 +58,7 @@ const Modal = ({ addDept }) => {
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="exampleInputEmail1"
+                                        id="departmentName"
                                         aria-describedby="emailHelp"
                                         value={name}
                                         onChange={(e) => setname(e.target.value)}
@@ -69,7 +69,7 @@ const Modal = ({ addDept }) => {
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="exampleInputEmail1"
+                                        id="ShortName"
                                         aria-describedby="emailHelp"
                                         value={shortName}
                                         onChange={(e) => setshortName(e.target.value)}
@@ -80,7 +80,7 @@ const Modal = ({ addDept }) => {
                                     <input
                                         type="email"
                                         className="form-control"
-                                        id="exampleInputEmail1"
+                                        id="Email"
                                         aria-describedby="emailHelp"
                                         value={email}
                                         onChange={(e) => setemail(e.target.value)}

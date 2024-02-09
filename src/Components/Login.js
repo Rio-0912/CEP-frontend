@@ -22,7 +22,7 @@ const Login = (props) => {
                     password: credentials.password,
                 }),
             });
-console.log('check it ');
+            console.log('check it ');
             const json = await response.json();
             console.log(json);
             if (json.success) {
@@ -41,6 +41,7 @@ console.log('check it ');
                 } else if (json.data.hodAccess) {
                     history('/course');
                 } else if (json.data.authority === 'Coordinator') {
+                    
                     history('/addStudent');
                 }
             } else {

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Auth = () => {
     const history = useNavigate();
     const [authenticated, setAuthenticated] = useState(false);
+ 
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -16,10 +17,12 @@ const Auth = () => {
             if ((userId && authority) || departmentId) {
                 // User is authenticated
                 setAuthenticated(true);
+
             } else {
                 // Redirect to the login page if any of the required credentials is missing
                 history('/');
             }
+          
         };
 
         checkAuthentication();
@@ -35,7 +38,7 @@ const Auth = () => {
     // Return JSX or null based on your needs
     return (
         <div>
-           Welcome {welcome}
+            Welcome {welcome}
         </div>
     );
 };

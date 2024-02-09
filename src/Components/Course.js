@@ -1,5 +1,5 @@
 // Course.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import axios from 'axios';
 import Auth from '../Middleware/auth';
 import CourseItem from './CourseItem';
@@ -10,11 +10,49 @@ const Course = (props) => {
     const [course, setcourse] = useState([]);
     let { showAlert } = props
     const navigate = useNavigate()
-   
+
 
     // Course.js
     // ...
-  
+
+    const checkHOD = useCallback(async () => {
+        try {
+            let email;
+            if (localStorage.getItem('email')) {
+                email = localStorage.getItem('email');
+            } else {
+                navigate('/');
+            }
+            const departmentId = localStorage.getItem('departmentId');
+
+            const response = await fetch(`http://localhost:9000/api/auth/checkHOD`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    deptId: departmentId,
+                }),
+            });
+
+            console.log(response);
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // Check if the email from the response is not equal to the stored email
+                if (data !== email) {
+                    // Use navigate to go to '/'
+                    navigate('/');
+                }
+            } else {
+                console.error('Failed to check HOD:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error checking HOD:', error.message);
+        }
+    }, [navigate]);
     const gettingShortNameViaDeptId = async () => {
         const deptId = localStorage.getItem('departmentId')
         try {
@@ -70,9 +108,9 @@ const Course = (props) => {
             await axios.post('http://localhost:9000/api/course/createCourse', newCourse, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'deptId': localStorage.getItem('departmentId'),
                     'userID': localStorage.getItem('userId'),
                     'authority': localStorage.getItem('authority'),
-                    'departmentId': localStorage.getItem('departmentId'),
                 },
             });
             showAlert('Course Added successfully ', 'success')
@@ -84,18 +122,32 @@ const Course = (props) => {
     };
 
     useEffect(() => {
+        checkHOD();
         getCourse();
-        gettingShortNameViaDeptId()
-    }, []);
+        gettingShortNameViaDeptId();
+    }, [checkHOD]);
 
     return (
         <>
             <Auth />
 
-            <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { navigate(-2); localStorage.removeItem('deptName') }}></i></div>
-            <div className='container my-3'>
-                <h4><Auth /></h4>
-                <h5 className='my-3'> This is {localStorage.getItem('deptName')}</h5>
+            <div>
+                <i
+                    className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2"
+                    onClick={() => {
+                        navigate(-2);
+                        localStorage.removeItem('deptName');
+                    }}
+                ></i>
+            </div>
+            <div className="container my-3">
+                <h4>
+                    <Auth />
+                </h4>
+                <button className="btn btn-primary" onClick={checkHOD}>
+                    check
+                </button>
+                <h5 className="my-3"> This is {localStorage.getItem('deptName')}</h5>
                 <CourseModal addCourseInDept={addCourseInDept} />
                 <CourseItem course={course} getCourse={getCourse} showAlert={showAlert} />
             </div>

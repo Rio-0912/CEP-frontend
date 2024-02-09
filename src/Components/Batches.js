@@ -6,12 +6,50 @@ import BatchModal from './BatchModal';
 import { useNavigate } from 'react-router-dom';
 
 const Batches = ({ showAlert }) => {
-    
+
     const [batch, setbatch] = useState([]);
     const courseId = localStorage.getItem('courseId');
     const history = useNavigate();
-    
-    
+
+    const checkHOD = async () => {
+        try {
+            let email;
+            if (localStorage.getItem('email')) {
+                email = localStorage.getItem('email');
+            }
+            else {
+                history('/')
+            }
+            const departmentId = localStorage.getItem('departmentId');
+
+
+            const response = await fetch(`http://localhost:9000/api/auth/checkHOD`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    deptId: departmentId,
+                }),
+            });
+
+            if (response.ok) {
+
+                const data = await response.json();
+
+                // Check if the email from the response is not equal to the stored email
+                if (data !== email) {
+                    // Use navigate to go to '/'
+                    history('/');
+                }
+            } else {
+                console.error('Failed to check HOD:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error checking HOD:', error.message);
+        }
+    };
 
     const addBatchViaMain = async (newBatch) => {
         try {
@@ -19,18 +57,18 @@ const Batches = ({ showAlert }) => {
                 'Content-Type': 'application/json',
                 'userID': localStorage.getItem('userId'),
                 'authority': localStorage.getItem('authority'),
-                'departmentId': localStorage.getItem('departmentId'),
+                'deptId': localStorage.getItem('departmentId'),
             };
-    
+
             // Add departmentId to headers only if HOD access
             if (localStorage.getItem('hodAccess')) {
                 headers['deptId'] = localStorage.getItem('departmentId');
             }
-    
+
             await axios.post(`http://localhost:9000/api/batch/createBatch/${courseId}`, newBatch, {
                 headers: headers,
             });
-    
+
             getBatches();
             showAlert('Batch created Successfully', 'success');
         } catch (error) {
@@ -42,11 +80,11 @@ const Batches = ({ showAlert }) => {
             }
         }
     };
-    
+
 
 
     const getBatches = async () => {
-     
+
         try {
             const response = await axios.get(`http://localhost:9000/api/batch/getBatches/${courseId}`, {
                 headers: {
@@ -56,7 +94,7 @@ const Batches = ({ showAlert }) => {
                     'authority': localStorage.getItem('authority'),
                 },
             });
-            
+
             if (!response.data) {
                 throw new Error('No data in the response');
             }
@@ -72,6 +110,7 @@ const Batches = ({ showAlert }) => {
     // }, [checkHODAccess]); // Only run once on mount
 
     useEffect(() => {
+        checkHOD()
         getBatches()
     },)
 

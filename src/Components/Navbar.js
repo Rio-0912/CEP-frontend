@@ -5,9 +5,10 @@ import Auth from '../Middleware/auth'
 const Navbar = () => {
     let navigate = useNavigate()
     const logout = () => {
-        localStorage.removeItem('userId')
-        localStorage.removeItem('authority')
-        localStorage.removeItem('departmentId')
+        // localStorage.removeItem('userId')
+        // localStorage.removeItem('authority')
+        // localStorage.removeItem('departmentId')
+        localStorage.clear()
         navigate('/')
 
     }

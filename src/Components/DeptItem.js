@@ -51,7 +51,7 @@ const DeptItem = ({ depts, deleteDept, getDepts, showAlert }) => {
                                 <i className='fa-solid fa-trash'></i>
                             </button>
                            
-                            <Link onClick={()=>{goingToCourseWithId(item._id); localStorage.setItem('deptName', item.name) }} className='btn mx-2 btn-outline-dark' to={'/course'}>
+                            <Link onClick={()=>{goingToCourseWithId(item._id); localStorage.setItem('deptName', item.name); localStorage.setItem('email',item.email) }} className='btn mx-2 btn-outline-dark' to={'/course'}>
                                View <i className="fa-solid fa-arrow-right"></i>
                             </Link>
                         </div>
