@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import Auth from '../Middleware/auth';
 import axios from 'axios';
 import BatchItem from './BatchItem';
@@ -10,18 +10,15 @@ const Batches = ({ showAlert }) => {
     const [batch, setbatch] = useState([]);
     const courseId = localStorage.getItem('courseId');
     const history = useNavigate();
-
-    const checkHOD = async () => {
+    const checkHOD = useCallback(async () => {
         try {
             let email;
             if (localStorage.getItem('email')) {
                 email = localStorage.getItem('email');
-            }
-            else {
-                history('/')
+            } else {
+                history('/');
             }
             const departmentId = localStorage.getItem('departmentId');
-
 
             const response = await fetch(`http://localhost:9000/api/auth/checkHOD`, {
                 method: 'POST',
@@ -34,14 +31,19 @@ const Batches = ({ showAlert }) => {
                 }),
             });
 
-            if (response.ok) {
+            console.log(response);
 
-                const data = await response.json();
+            if (response.ok) {
+                const { name, email: responseEmail } = await response.json();
 
                 // Check if the email from the response is not equal to the stored email
-                if (data !== email) {
+                if (responseEmail !== email) {
                     // Use navigate to go to '/'
                     history('/');
+                } else {
+                    // Set the name and email in local storage
+                    localStorage.setItem('deptName', name);
+                    localStorage.setItem('email', responseEmail);
                 }
             } else {
                 console.error('Failed to check HOD:', response.statusText);
@@ -49,7 +51,7 @@ const Batches = ({ showAlert }) => {
         } catch (error) {
             console.error('Error checking HOD:', error.message);
         }
-    };
+    }, [history]);
 
     const addBatchViaMain = async (newBatch) => {
         try {

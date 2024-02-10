@@ -1,10 +1,10 @@
 // Course.js
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Auth from '../Middleware/auth';
 import CourseItem from './CourseItem';
 import CourseModal from './CourseModal'; // Make sure to import CourseModal
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Course = (props) => {
     const [course, setcourse] = useState([]);
@@ -39,12 +39,16 @@ const Course = (props) => {
             console.log(response);
 
             if (response.ok) {
-                const data = await response.json();
+                const { name, email: responseEmail } = await response.json();
 
                 // Check if the email from the response is not equal to the stored email
-                if (data !== email) {
+                if (responseEmail !== email) {
                     // Use navigate to go to '/'
                     navigate('/');
+                } else {
+                    // Set the name and email in local storage
+                    localStorage.setItem('deptName', name);
+                    localStorage.setItem('email', responseEmail);
                 }
             } else {
                 console.error('Failed to check HOD:', response.statusText);
@@ -53,6 +57,7 @@ const Course = (props) => {
             console.error('Error checking HOD:', error.message);
         }
     }, [navigate]);
+
     const gettingShortNameViaDeptId = async () => {
         const deptId = localStorage.getItem('departmentId')
         try {
@@ -144,11 +149,13 @@ const Course = (props) => {
                 <h4>
                     <Auth />
                 </h4>
-                <button className="btn btn-primary" onClick={checkHOD}>
-                    check
-                </button>
+
                 <h5 className="my-3"> This is {localStorage.getItem('deptName')}</h5>
-                <CourseModal addCourseInDept={addCourseInDept} />
+                <div className='d-flex justify-content-between'>
+                    <CourseModal addCourseInDept={addCourseInDept} />
+
+                    <Link className="btn btn-outline-dark" to="/addCodinator">Add Co-ordinator</Link>
+                </div>
                 <CourseItem course={course} getCourse={getCourse} showAlert={showAlert} />
             </div>
         </>

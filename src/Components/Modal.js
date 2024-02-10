@@ -32,7 +32,7 @@ const Modal = ({ addDept }) => {
 
     return (
         <div>
-            <Auth/>
+            <div className="d-none"><Auth/></div>  
             <div className="d-flex justify-content-end">
                 <button
                     type="button"

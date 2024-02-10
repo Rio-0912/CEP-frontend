@@ -9,6 +9,7 @@ import Students from './Components/Students';
 import AddStudent from './Components/AddStudent'
 import Alert from './Components/Alert';
 import Navbar from './Components/Navbar';
+import AddCoordinator from './Components/AddCoordinator';
 
 function App() {
   const [alert, setalert] = useState(null)
@@ -29,6 +30,7 @@ function App() {
             <Alert alert={alert}/>
           <Routes>
             <Route path='/home' element={<Home showAlert={showAlert}/>} />
+            <Route path='/addCodinator' element={<AddCoordinator showAlert={showAlert}/>} />
             <Route path='/addStudent' element={<AddStudent showAlert={showAlert}/>} />
             <Route path='/student' element={<Students showAlert={showAlert}/>} />
             <Route path='/batch' element={<Batches showAlert={showAlert}/>} />

@@ -10,7 +10,7 @@ const Dept = (props) => {
     let { showAlert } = props
     const getDepts = async () => {
         try {
-           
+
             const response = await axios.get(`http://localhost:9000/api/dept/getDept`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ const Dept = (props) => {
                     'departmentId': localStorage.getItem('departmentId'),
                 },
             });
-
+            console.log('i ma here');
             if (!response.data) {
                 throw new Error('No data in the response');
             }
@@ -80,7 +80,7 @@ const Dept = (props) => {
 
     return (
         <div>
-            <Auth/>
+            <div className="d-none"><Auth /></div>
             <Modal addDept={addDept} />
             <DeptItem depts={depts} deleteDept={deleteDept} getDepts={getDepts} showAlert={showAlert} />
         </div>

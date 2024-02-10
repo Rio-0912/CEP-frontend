@@ -41,6 +41,7 @@ const Login = (props) => {
                 } else if (json.data.hodAccess) {
                     history('/course');
                 } else if (json.data.authority === 'Coordinator') {
+                    localStorage.setItem('departmentId', json.data.departmentId);
                     
                     history('/addStudent');
                 }

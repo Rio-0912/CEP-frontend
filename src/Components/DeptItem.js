@@ -40,6 +40,7 @@ const DeptItem = ({ depts, deleteDept, getDepts, showAlert }) => {
     
     return (
         <div className='row my-3 grid-col'>
+          
             {depts.map((item) => (
                 <div className='col-md-4 my-2' key={item._id}>
                     <div className='card'>

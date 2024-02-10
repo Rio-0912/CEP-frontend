@@ -4,12 +4,10 @@ import axios from 'axios';
 
 import Dept from './Dept';
 import Auth from '../Middleware/auth';
-
 const Home = (props) => {
   const history = useNavigate();
   let { showAlert } = props;
   const [authenticated, setAuthenticated] = useState(false);
-  const [isPrincipal, setIsPrincipal] = useState(false);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -17,47 +15,40 @@ const Home = (props) => {
       const authority = localStorage.getItem('authority');
 
       if (userId && authority) {
-        // User is authenticated, now check if they have the authority of a principal
         try {
           const response = await axios.post('http://localhost:9000/api/auth/checkPrincipal', {
             userId: userId,
-            authority: authenticated
+            authority: authenticated,
           });
-
+console.log('i am here ');
           if (response.data.success && response.data.isPrincipal) {
-            // User is authenticated and has the authority of a principal
             setAuthenticated(true);
-            setIsPrincipal(true);
+            console.log('i am here authetication rtye');
           } else {
-            // Redirect to the login page if the user is not a principal
             history('/');
           }
         } catch (error) {
           console.error('Error checking principal:', error);
-          // Handle error, e.g., redirect to login page
           history('/');
         }
       } else {
-        // Redirect to the login page if any of the required credentials is missing
         history('/');
       }
     };
+
     checkAuthentication();
-  }, [history]);
+  }, [history, authenticated]);
 
   if (!authenticated) {
-    // Display a loading spinner or some other indicator while checking authentication
+    history('/');
     return null;
   }
-
-  let welcome = localStorage.getItem('authority');
 
   return (
     <>
       <div>
         <div className='container my-3'>
           <Auth />
-          {isPrincipal ? <div>Principal Access Granted!</div> : null}
           <Dept showAlert={showAlert} />
         </div>
       </div>

@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
-    const history = useNavigate();
+    const navigate = useNavigate('');
     const [authenticated, setAuthenticated] = useState(false);
- 
+    const [welcome, setWelcome] = useState('');
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -14,28 +14,30 @@ const Auth = () => {
             const authority = localStorage.getItem('authority');
             const departmentId = localStorage.getItem('departmentId');
 
-            if ((userId && authority) || departmentId) {
-                // User is authenticated
+            if ((userId && authority)) {
+
+                setAuthenticated(true);
+                console.log(welcome);
+                setWelcome(localStorage.getItem('authority'));
+            } else if (departmentId) {
                 setAuthenticated(true);
 
-            } else {
-                // Redirect to the login page if any of the required credentials is missing
-                history('/');
+                setWelcome('HOD');
             }
-          
+            else {
+                navigate('/');
+            }
         };
 
+
+
         checkAuthentication();
-    }, [history]);
+    }, [navigate, welcome]);
 
     if (!authenticated) {
-        // Display a loading spinner or some other indicator while checking authentication
         return null;
     }
 
-    let welcome = localStorage.getItem('authority');
-
-    // Return JSX or null based on your needs
     return (
         <div>
             Welcome {welcome}
