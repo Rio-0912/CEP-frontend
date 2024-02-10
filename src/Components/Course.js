@@ -138,11 +138,12 @@ const Course = (props) => {
 
             <div>
                 <i
-                    className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2"
+                    className={`fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2 ${localStorage.getItem('authority') ? 'd-fixed': 'd-none'}`}
                     onClick={() => {
                         navigate(-2);
                         localStorage.removeItem('deptName');
                     }}
+                    
                 ></i>
             </div>
             <div className="container my-3">

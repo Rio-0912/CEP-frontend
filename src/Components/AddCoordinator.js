@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import GetCoordinator from './GetCoordinator';
 
 const AddCoordinator = (props) => {
     const { showAlert } = props;
@@ -33,7 +34,7 @@ const AddCoordinator = (props) => {
                 }),
             });
 
-            console.log(response);
+
 
             if (response.ok) {
                 const { name, email: responseEmail } = await response.json();
@@ -54,8 +55,32 @@ const AddCoordinator = (props) => {
             console.error('Error checking HOD:', error.message);
         }
     }, [history]);
+
+    const [coordinator, setCoordinator] = useState()
+    const getCods = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/auth/getCoordinators/${deptId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'userID': localStorage.getItem('userId'),
+                    'authority': localStorage.getItem('authority'),
+                    'deptId': localStorage.getItem('deptId')
+                },
+                
+            });
+            if (!response.data.success) {
+                throw new Error(response.data.error || 'No data in the response');
+            }
+
+            const newCoordinator = response.data.coordinators;
+            setCoordinator(newCoordinator);
+        } catch (error) {
+            console.error('Error fetching coordinators:', error.message);
+        }
+    };
     useEffect(() => {
         checkHOD()
+        getCods()
     })
 
 
@@ -151,9 +176,11 @@ const AddCoordinator = (props) => {
                             </div>
                         </div>
                     </div>
-
+                    <GetCoordinator coordinator={coordinator} getCods={getCods} />
                 </div >
             </div >
+
+
         </div>
     )
 }

@@ -9,6 +9,7 @@ import Students from './Components/Students';
 import AddStudent from './Components/AddStudent'
 import Alert from './Components/Alert';
 import Navbar from './Components/Navbar';
+import GetCoordinator from './Components/GetCoordinator';
 import AddCoordinator from './Components/AddCoordinator';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Alert alert={alert}/>
           <Routes>
             <Route path='/home' element={<Home showAlert={showAlert}/>} />
+            <Route path='/getCoordinator' element={<GetCoordinator showAlert={showAlert}/>} />
             <Route path='/addCodinator' element={<AddCoordinator showAlert={showAlert}/>} />
             <Route path='/addStudent' element={<AddStudent showAlert={showAlert}/>} />
             <Route path='/student' element={<Students showAlert={showAlert}/>} />
