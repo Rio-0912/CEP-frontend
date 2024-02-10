@@ -10,7 +10,7 @@ const Students = () => {
     const batchId = localStorage.getItem('batchId')
     const getStudents = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/student/getStudents/${batchId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/student/getStudents/${batchId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),

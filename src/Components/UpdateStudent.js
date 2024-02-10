@@ -21,7 +21,7 @@ const UpdateStudent = ({ id, stud }) => {
         e.preventDefault();
         try {
             // Send PUT request to update student information
-            const response = await axios.put(`http://localhost:9000/api/student/updateStudent/${id}`, {
+            const response = await axios.put(`https://cep-backend.vercel.app/api/student/updateStudent/${id}`, {
                 name,
                 gender,
                 DOB,

@@ -15,7 +15,7 @@ const DeptItem = ({ depts, deleteDept, getDepts, showAlert }) => {
     const handleDelete = async (deptId) => {
         try {
             // Make API call to delete department
-            const response = await axios.delete(`http://localhost:9000/api/dept/deleteDept/${deptId}`, {
+            const response = await axios.delete(`https://cep-backend.vercel.app/api/dept/deleteDept/${deptId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),

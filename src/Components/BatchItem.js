@@ -7,7 +7,7 @@ const BatchItem = ({ getBatches, batch, showAlert }) => {
     const batchDelete = async (batchId) => {
         try {
             // Make API call to delete department
-            const response = await axios.delete(`http://localhost:9000/api/batch/deleteBatch/${batchId}`, {
+            const response = await axios.delete(`https://cep-backend.vercel.app/api/batch/deleteBatch/${batchId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),

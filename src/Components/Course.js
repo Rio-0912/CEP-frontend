@@ -25,7 +25,7 @@ const Course = (props) => {
             }
             const departmentId = localStorage.getItem('departmentId');
 
-            const response = await fetch(`http://localhost:9000/api/auth/checkHOD`, {
+            const response = await fetch(`https://cep-backend.vercel.app/api/auth/checkHOD`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const Course = (props) => {
     const gettingShortNameViaDeptId = async () => {
         const deptId = localStorage.getItem('departmentId')
         try {
-            const response = await axios.get(`http://localhost:9000/api/dept/shortNameFromDeptId/${deptId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/dept/shortNameFromDeptId/${deptId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),
@@ -87,7 +87,7 @@ const Course = (props) => {
         const deptId = localStorage.getItem('departmentId')
         console.log(deptId);
         try {
-            const response = await axios.get(`http://localhost:9000/api/course/getDeptCourses/${deptId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/course/getDeptCourses/${deptId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),
@@ -110,7 +110,7 @@ const Course = (props) => {
     const addCourseInDept = async (newCourse) => {
         try {
             console.log(newCourse);
-            await axios.post('http://localhost:9000/api/course/createCourse', newCourse, {
+            await axios.post('https://cep-backend.vercel.app/api/course/createCourse', newCourse, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),

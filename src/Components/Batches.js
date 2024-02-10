@@ -20,7 +20,7 @@ const Batches = ({ showAlert }) => {
             }
             const departmentId = localStorage.getItem('departmentId');
 
-            const response = await fetch(`http://localhost:9000/api/auth/checkHOD`, {
+            const response = await fetch(`https://cep-backend.vercel.app/api/auth/checkHOD`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const Batches = ({ showAlert }) => {
                 headers['deptId'] = localStorage.getItem('departmentId');
             }
 
-            await axios.post(`http://localhost:9000/api/batch/createBatch/${courseId}`, newBatch, {
+            await axios.post(`https://cep-backend.vercel.app/api/batch/createBatch/${courseId}`, newBatch, {
                 headers: headers,
             });
 
@@ -88,7 +88,7 @@ const Batches = ({ showAlert }) => {
     const getBatches = async () => {
 
         try {
-            const response = await axios.get(`http://localhost:9000/api/batch/getBatches/${courseId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/batch/getBatches/${courseId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),

@@ -29,7 +29,7 @@ const AddStudent = (props) => {
         const deptId = localStorage.getItem('departmentId');
 
         try {
-            const response = await axios.get(`http://localhost:9000/api/course/getDeptCourses/${deptId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/course/getDeptCourses/${deptId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),
@@ -51,7 +51,7 @@ const AddStudent = (props) => {
 
     const getBatches = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/batch/getBatches/${courseId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/batch/getBatches/${courseId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'deptId': localStorage.getItem('departmentId'),
@@ -77,7 +77,7 @@ const AddStudent = (props) => {
         console.log(' i got clikecd');
         window.scrollTo(0, 0)
         try {
-            const response = await axios.post(`http://localhost:9000/api/student/createStudent/${batchId}`, {
+            const response = await axios.post(`https://cep-backend.vercel.app/api/student/createStudent/${batchId}`, {
                 name,
                 gender,
                 DOB,

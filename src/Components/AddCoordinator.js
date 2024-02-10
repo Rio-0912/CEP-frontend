@@ -23,7 +23,7 @@ const AddCoordinator = (props) => {
             }
             const departmentId = localStorage.getItem('departmentId');
 
-            const response = await fetch(`http://localhost:9000/api/auth/checkHOD`, {
+            const response = await fetch(`https://cep-backend.vercel.app/api/auth/checkHOD`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const AddCoordinator = (props) => {
     const [coordinator, setCoordinator] = useState()
     const getCods = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/auth/getCoordinators/${deptId}`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/auth/getCoordinators/${deptId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),
@@ -96,7 +96,7 @@ const AddCoordinator = (props) => {
         // AddCoordinator component (handleFormSubmit function)
 
         try {
-            const response = await axios.post(`http://localhost:9000/api/auth/createUser`, {
+            const response = await axios.post(`https://cep-backend.vercel.app/api/auth/createUser`, {
                 email,
                 password,
                 authority,

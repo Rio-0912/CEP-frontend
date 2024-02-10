@@ -11,7 +11,7 @@ const Dept = (props) => {
     const getDepts = async () => {
         try {
 
-            const response = await axios.get(`http://localhost:9000/api/dept/getDept`, {
+            const response = await axios.get(`https://cep-backend.vercel.app/api/dept/getDept`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),
@@ -35,7 +35,7 @@ const Dept = (props) => {
     const addDept = async (newDept) => {
         try {
             // Logic to add a new department (make API call, etc.)
-            await axios.post('http://localhost:9000/api/dept/createDept', newDept, {
+            await axios.post('https://cep-backend.vercel.app/api/dept/createDept', newDept, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),
@@ -56,7 +56,7 @@ const Dept = (props) => {
     const deleteDept = async (deptId) => {
         try {
             // Logic to delete a department (make API call, etc.)
-            await axios.delete(`http://localhost:9000/api/dept/deleteDept/${deptId}`, {
+            await axios.delete(`https://cep-backend.vercel.app/api/dept/deleteDept/${deptId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),

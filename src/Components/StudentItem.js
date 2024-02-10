@@ -8,7 +8,7 @@ const StudentItem = ({ Students, getStudents }) => {
     const studentDelete = async (studentId) => {
         try {
             // Make API call to delete department
-            const response = await axios.delete(`http://localhost:9000/api/student/deleteStudent/${studentId}`, {
+            const response = await axios.delete(`https://cep-backend.vercel.app/api/student/deleteStudent/${studentId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'userID': localStorage.getItem('userId'),

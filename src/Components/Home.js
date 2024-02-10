@@ -16,7 +16,7 @@ const Home = (props) => {
 
       if (userId && authority) {
         try {
-          const response = await axios.post('http://localhost:9000/api/auth/checkPrincipal', {
+          const response = await axios.post('https://cep-backend.vercel.app/api/auth/checkPrincipal', {
             userId: userId,
             authority: authenticated,
           });
