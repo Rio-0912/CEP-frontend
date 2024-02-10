@@ -12,7 +12,7 @@ const AddCoordinator = (props) => {
     const [password, setpassword] = useState('')
     const [authority, setauthority] = useState('Coordinator')
     const deptId = localStorage.getItem('departmentId');
-    const navigate = useNavigate()
+    
     const checkHOD = useCallback(async () => {
         try {
             let email;
