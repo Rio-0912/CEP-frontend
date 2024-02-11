@@ -11,18 +11,18 @@ const StudentItem = ({ Students, getStudents }) => {
             const response = await axios.delete(`https://cep-backend.vercel.app/api/student/deleteStudent/${studentId}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'userID': localStorage.getItem('userId'),
+                    'userId': localStorage.getItem('userId'),
                     'authority': localStorage.getItem('authority'),
                     'departmentId': localStorage.getItem('departmentId'),
                 },
             });
-            // After successfully deleting, update the department list
-            getStudents();
-
+            
             // Check if the server returned an error
             if (response.status !== 200) {
                 console.error("Error deleting department:", response.data);
             }
+            // After successfully deleting, update the department list
+            getStudents();
         } catch (error) {
             console.error("Error deleting department:", error);
         }
