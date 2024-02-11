@@ -95,11 +95,15 @@ const Reports = () => {
                 }
             } else {
                 setError(response.data.error || 'Failed to fetch total amount');
+                error()
             }
         } catch (error) {
             setError('Error fetching total amount by batch:', error);
+
+            loading()
         } finally {
             setLoading(false);
+
         }
     };
 
@@ -130,7 +134,6 @@ const Reports = () => {
             console.error('Error fetching total students by course:', error);
         }
     };
-
     useEffect(() => {
         const fetchTotalAmount = async () => {
             if (batchId) {
@@ -141,8 +144,9 @@ const Reports = () => {
                 await fetchTotalStudentsByCourse();
             }
         };
-
+        
         fetchTotalAmount();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [batchId, courseId]);
 
     useEffect(() => {
@@ -237,7 +241,7 @@ const Reports = () => {
                         </div>
                     </div>
                 </div>
-              
+
                 <div className="col-md-4">
                     <div className="card bg-success text-white m-2">
                         <div className="card-body">
@@ -255,7 +259,7 @@ const Reports = () => {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     );
 };
