@@ -11,6 +11,7 @@ import Alert from './Components/Alert';
 import Navbar from './Components/Navbar';
 import GetCoordinator from './Components/GetCoordinator';
 import AddCoordinator from './Components/AddCoordinator';
+import Reports from './Components/Reports';
 
 function App() {
   const [alert, setalert] = useState(null)
@@ -31,6 +32,7 @@ function App() {
             <Alert alert={alert}/>
           <Routes>
             <Route path='/home' element={<Home showAlert={showAlert}/>} />
+            <Route path='/reports' element={<Reports showAlert={showAlert}/>} />
             <Route path='/getCoordinator' element={<GetCoordinator showAlert={showAlert}/>} />
             <Route path='/addCodinator' element={<AddCoordinator showAlert={showAlert}/>} />
             <Route path='/addStudent' element={<AddStudent showAlert={showAlert}/>} />

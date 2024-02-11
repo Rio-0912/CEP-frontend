@@ -74,7 +74,7 @@ const AddStudent = (props) => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        console.log(' i got clikecd');
+        console.log(' i got clikecd',Batch,batchId);
         window.scrollTo(0, 0)
         try {
             const response = await axios.post(`https://cep-backend.vercel.app/api/student/createStudent/${batchId}`, {
@@ -116,6 +116,8 @@ const AddStudent = (props) => {
             setIsCertified(false);
             setPincode('');
             setTransactionNumber('');
+            setBatchId('')
+            setcourseId('')
     
             showAlert('Student added successfully ', 'success');
     
@@ -272,6 +274,7 @@ const AddStudent = (props) => {
                                         <div className="col-12">
                                             <label className="form-label select-label mx-2">Batch</label>
                                             <select className="select" value={batchId} onChange={handleBatchChange}>
+                                            <option value="">Select a Batch</option>
                                                 {loadingBatches ? (
                                                     <option value="" disabled>Loading batches...</option>
                                                 ) : (
