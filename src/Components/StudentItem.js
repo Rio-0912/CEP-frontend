@@ -13,7 +13,7 @@ const StudentItem = ({ Students, getStudents }) => {
                     'Content-Type': 'application/json',
                     'userId': localStorage.getItem('userId'),
                     'authority': localStorage.getItem('authority'),
-                    'departmentId': localStorage.getItem('departmentId'),
+                    'deptId': localStorage.getItem('departmentId'),
                 },
             });
             
