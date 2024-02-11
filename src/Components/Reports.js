@@ -65,7 +65,7 @@ const Reports = () => {
 
     const fetchTotalAmountByCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/totalAmountByCourse/${courseId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalAmountByCourse/${courseId}`);
 
             if (response.data.success) {
                 if (response.data.totalAmount !== null && response.data.totalAmount !== undefined) {
@@ -85,7 +85,7 @@ const Reports = () => {
 
     const fetchTotalAmountByBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/totalAmount/${batchId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalAmount/${batchId}`);
 
             if (response.data.success) {
                 if (response.data.totalAmount !== null && response.data.totalAmount !== undefined) {
@@ -109,7 +109,7 @@ const Reports = () => {
 
     const fetchTotalStudentsByBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/totalStudentsByBatch/${batchId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalStudentsByBatch/${batchId}`);
 
             if (response.data.success) {
                 setTotalStudents(response.data.totalStudents);
@@ -123,7 +123,7 @@ const Reports = () => {
 
     const fetchTotalStudentsByCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/totalStudentsByCourse/${courseId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalStudentsByCourse/${courseId}`);
 
             if (response.data.success) {
                 setTotalStudents(response.data.totalStudents);
