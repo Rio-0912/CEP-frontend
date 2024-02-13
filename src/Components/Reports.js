@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Graph from './Graph';
 import GenderGraph from './GenderGraph';
+import { Player } from '@lottiefiles/react-lottie-player';
+import Loader from '../Assets/Loader.json'
 
 
 const Reports = () => {
@@ -12,7 +14,8 @@ const Reports = () => {
     const [course, setCourse] = useState([]);
     const [courseId, setCourseId] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+
 
     const handleBatchChange = (e) => {
         setBatchId(e.target.value);
@@ -37,6 +40,8 @@ const Reports = () => {
 
             const newCourse = response.data;
             setCourse(newCourse);
+            setLoading(false)
+
         } catch (error) {
             console.error('Error fetching courses:', error);
         }
@@ -59,7 +64,7 @@ const Reports = () => {
 
             const newBatch = response.data;
             setBatch(newBatch);
-
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching batches:', error);
         }
@@ -187,7 +192,7 @@ const Reports = () => {
                 await fetchTotalStudentsByBatch();
                 await genderRatioForBatch()
             } else if (courseId) {
-                
+
                 await fetchTotalAmountByCourse();
                 await fetchCertificationStatsForCourse()
                 await fetchTotalStudentsByCourse();
@@ -198,7 +203,7 @@ const Reports = () => {
         fetchTotalAmount();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [batchId, courseId]);
- 
+
 
     useEffect(() => {
         getCourse();
@@ -221,6 +226,21 @@ const Reports = () => {
 
     return (
         <div className="container">
+
+            {loading ? (
+
+                <Player
+                    src={Loader}
+                    className="player"
+                    autoplay
+                    loop
+                    style={{ height: '300px', width: '300px' }}
+                />
+
+            ) : (
+
+
+          
             <div className="row">
                 <div className="col-md-4 ">
                     <div className="card bg-light m-2 p-2">
@@ -322,7 +342,7 @@ const Reports = () => {
                                 </div>
                             </div>
                             <h3>Is Certified</h3>
-                      {courseId && batchId ? <Graph data={batchStats}/> : courseId? <Graph data={courseStats}/>: 'No dat to fetch'}
+                            {courseId && batchId ? <Graph data={batchStats} /> : courseId ? <Graph data={courseStats} /> : 'No dat to fetch'}
                         </div>
                     </div>
                 </div>
@@ -355,8 +375,8 @@ const Reports = () => {
                                     </select>
                                 </div>
                             </div>
-                           <h3>Gender Ratio</h3>
-                      {courseId && batchId ? <GenderGraph data={batchGender}/> : courseId? <GenderGraph data={courseGender}/>: 'No dat to fetch'}
+                            <h3>Gender Ratio</h3>
+                            {courseId && batchId ? <GenderGraph data={batchGender} /> : courseId ? <GenderGraph data={courseGender} /> : 'No dat to fetch'}
                         </div>
                     </div>
                 </div>
@@ -379,6 +399,9 @@ const Reports = () => {
                 </div>
 
             </div>
+           
+            )}
+              {!loading && course.length === 0 && <p>No data available</p>}
         </div>
     );
 };

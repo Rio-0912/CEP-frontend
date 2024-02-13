@@ -2,7 +2,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Auth from '../Middleware/auth';
+import { Player } from '@lottiefiles/react-lottie-player';
 import CourseItem from './CourseItem';
+import Loader from '../Assets/Loader.json'
+
 import CourseModal from './CourseModal'; // Make sure to import CourseModal
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -10,6 +13,8 @@ const Course = (props) => {
     const [course, setcourse] = useState([]);
     let { showAlert } = props
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(true);
+
 
 
     // Course.js
@@ -42,6 +47,7 @@ const Course = (props) => {
                 const { name, email: responseEmail } = await response.json();
 
                 // Check if the email from the response is not equal to the stored email
+                
                 if (responseEmail !== email) {
                     // Use navigate to go to '/'
                     navigate('/');
@@ -102,6 +108,7 @@ const Course = (props) => {
 
             const newCourse = response.data;
             setcourse(newCourse);
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching courses:', error);
         }
@@ -135,30 +142,42 @@ const Course = (props) => {
     return (
         <>
             <Auth />
+            {loading ? (
 
-            <div>
-                <i
-                    className={`fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2 ${localStorage.getItem('authority') ? 'd-fixed': 'd-none'}`}
-                    onClick={() => {
-                        navigate(-2);
-                        localStorage.removeItem('deptName');
-                    }}
-                    
-                ></i>
-            </div>
-            <div className="container my-3">
-                <h4>
-                    <Auth />
-                </h4>
+                <Player
+                    src={Loader}
+                    className="player"
+                    autoplay
+                    loop
+                    style={{ height: '300px', width: '300px' }}
+                />
 
-                <h5 className="my-3"> This is {localStorage.getItem('deptName')}</h5>
-                <div className='d-flex justify-content-between'>
-                    <CourseModal addCourseInDept={addCourseInDept} />
+            ) : (
+                <><div>
+                    <i
+                        className={`fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2 ${localStorage.getItem('authority') ? 'd-fixed' : 'd-none'}`}
+                        onClick={() => {
+                            navigate(-2);
+                            localStorage.removeItem('deptName');
+                        }}
 
-                    <Link className="btn btn-outline-dark" to="/addCodinator">Add Co-ordinator</Link>
-                </div>
-                <CourseItem course={course} getCourse={getCourse} showAlert={showAlert} />
-            </div>
+                    ></i>
+                </div><div className="container my-3">
+                        <h4>
+                            <Auth />
+                        </h4>
+
+                        <h5 className="my-3"> This is {localStorage.getItem('deptName')}</h5>
+                        <div className='d-flex justify-content-between'>
+                            <CourseModal addCourseInDept={addCourseInDept} />
+
+                            <Link className="btn btn-outline-dark" to="/addCodinator">Add Co-ordinator</Link>
+                        </div>
+                        <CourseItem course={course} getCourse={getCourse} showAlert={showAlert} />
+                    </div></>)}
+
+
+            {!loading && course.length === 0 && <p>No data available</p>}
         </>
     );
 };

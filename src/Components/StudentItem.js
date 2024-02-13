@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios'
 import UpdateStudent from './UpdateStudent';
 
@@ -51,9 +50,7 @@ const StudentItem = ({ Students, getStudents }) => {
                                 </button>
                                    <UpdateStudent id={stud._id} stud={stud}/>                           
 
-                                <Link className='btn mx-2 btn-outline-dark' to={'/course'}>
-                                    View <i className="fa-solid fa-arrow-right"></i>
-                                </Link>
+                                
                             </div>
                         </div>
                     </div>

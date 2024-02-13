@@ -1,15 +1,18 @@
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Auth from '../Middleware/auth';
 import axios from 'axios';
 import BatchItem from './BatchItem';
 import BatchModal from './BatchModal';
 import { useNavigate } from 'react-router-dom';
+import { Player } from '@lottiefiles/react-lottie-player';
+import Loader from '../Assets/Loader.json'
 
 const Batches = ({ showAlert }) => {
 
     const [batch, setbatch] = useState([]);
     const courseId = localStorage.getItem('courseId');
     const history = useNavigate();
+    const [loading, setLoading] = useState(true);
     const checkHOD = useCallback(async () => {
         try {
             let email;
@@ -103,6 +106,7 @@ const Batches = ({ showAlert }) => {
 
             const newBatch = response.data;
             setbatch(newBatch);
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching courses:', error);
         }
@@ -120,16 +124,33 @@ const Batches = ({ showAlert }) => {
 
     return (
         <div>
-            <div >
-                <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); }}></i></div>
-                <div className="container">
-                    <h4><Auth /></h4>
-                    <h5 className='my-3'> Course of {localStorage.getItem('courseName')}</h5>
-                    <BatchModal addBatchViaMain={addBatchViaMain} />
-                    <BatchItem batch={batch} getBatches={getBatches} showAlert={showAlert} />
+            {loading ? (
 
-                </div>
-            </div>
+                <Player
+                    src={Loader}
+                    className="player"
+                    autoplay
+                    loop
+                    style={{ height: '300px', width: '300px' }}
+                />
+
+            ) : (
+
+
+                <><div>
+                    <div><i className="fa-solid fa-left-long btn  btn-lg rounded-pill mx-4 my-2" onClick={() => { history(-1); }}></i></div>
+                    <div className="container">
+                        <h4><Auth /></h4>
+                        <h5 className='my-3'> Course of {localStorage.getItem('courseName')}</h5>
+                        <BatchModal addBatchViaMain={addBatchViaMain} />
+                        <BatchItem batch={batch} getBatches={getBatches} showAlert={showAlert} />
+
+                    </div>
+                </div></>
+            )}
+
+
+            {!loading && batch.length === 0 && <p>No data available</p>}
         </div>
     )
 }
