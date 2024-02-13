@@ -150,7 +150,7 @@ const Reports = () => {
 
     const fetchCertificationStatsForCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForCourse/${courseId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/certificationStatsForCourse/${courseId}`);
             setCourseStats(response.data);
         } catch (error) {
             setError('Error fetching certification stats for course:', error.message);
@@ -159,7 +159,7 @@ const Reports = () => {
 
     const fetchCertificationStatsForBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForBatch/${batchId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/certificationStatsForBatch/${batchId}`);
             setBatchStats(response.data);
         } catch (error) {
             setError('Error fetching certification stats for batch:', error.message);
@@ -167,7 +167,7 @@ const Reports = () => {
     };
     const genderRatioForCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/courseWiseGender/${courseId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/courseWiseGender/${courseId}`);
             setcourseGender(response.data);
         } catch (error) {
             setError('Error fetching certification stats for course:', error.message);
@@ -176,7 +176,7 @@ const Reports = () => {
 
     const genderRatioForBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/batchWiseGender/${batchId}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/batchWiseGender/${batchId}`);
             setbatchGender(response.data);
         } catch (error) {
             setError('Error fetching certification stats for batch:', error.message);
