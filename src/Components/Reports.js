@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Graph from './Graph';
+import GenderGraph from './GenderGraph';
 
 
 const Reports = () => {
@@ -137,6 +138,8 @@ const Reports = () => {
     };
     const [courseStats, setCourseStats] = useState([]);
     const [batchStats, setBatchStats] = useState([]);
+    const [batchGender, setbatchGender] = useState([])
+    const [courseGender, setcourseGender] = useState([])
 
 
 
@@ -157,20 +160,38 @@ const Reports = () => {
             setError('Error fetching certification stats for batch:', error.message);
         }
     };
+    const genderRatioForCourse = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/report/courseWiseGender/${courseId}`);
+            setcourseGender(response.data);
+        } catch (error) {
+            setError('Error fetching certification stats for course:', error.message);
+        }
+    };
+
+    const genderRatioForBatch = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/report/batchWiseGender/${batchId}`);
+            setbatchGender(response.data);
+        } catch (error) {
+            setError('Error fetching certification stats for batch:', error.message);
+        }
+    };
 
 
     useEffect(() => {
         const fetchTotalAmount = async () => {
             if (batchId) {
-               
                 await fetchTotalAmountByBatch();
                 await fetchCertificationStatsForBatch();
                 await fetchTotalStudentsByBatch();
+                await genderRatioForBatch()
             } else if (courseId) {
                 
                 await fetchTotalAmountByCourse();
                 await fetchCertificationStatsForCourse()
                 await fetchTotalStudentsByCourse();
+                await genderRatioForCourse();
             }
         };
 
@@ -201,7 +222,7 @@ const Reports = () => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-5 ">
+                <div className="col-md-4 ">
                     <div className="card bg-light m-2 p-2">
                         <div className="card-body">
                             <div className="row ">
@@ -236,7 +257,7 @@ const Reports = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-5 ">
+                <div className="col-md-4 ">
                     <div className="card bg-light m-2 p-2">
                         <div className="card-body">
                             <div className="row ">
@@ -300,8 +321,42 @@ const Reports = () => {
                                     </select>
                                 </div>
                             </div>
-                           
+                            <h3>Is Certified</h3>
                       {courseId && batchId ? <Graph data={batchStats}/> : courseId? <Graph data={courseStats}/>: 'No dat to fetch'}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-5 ">
+                    <div className="card bg-light m-2 p-2">
+                        <div className="card-body">
+                            <div className="row ">
+                                <div className="col-12">
+                                    <label className="form-label select-label mx-2">Course</label>
+                                    <select className="select" value={courseId} onChange={handleCourseChange}>
+                                        <option value="">Select a course</option>
+                                        {course.map((cour) => (
+                                            <option key={cour._id} value={cour._id}>
+                                                {cour.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <label className="form-label select-label mx-2">Batch</label>
+                                    <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                        <option value="">Select a Batch</option>
+                                        {Batch.length ? (
+                                            Batch.map((bat) => (
+                                                <option key={bat._id} value={bat._id}>
+                                                    {bat.name}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option value="" disabled>Loading batches...</option>
+                                        )}
+                                    </select>
+                                </div>
+                            </div>
+                           <h3>Gender Ratio</h3>
+                      {courseId && batchId ? <GenderGraph data={batchGender}/> : courseId? <GenderGraph data={courseGender}/>: 'No dat to fetch'}
                         </div>
                     </div>
                 </div>

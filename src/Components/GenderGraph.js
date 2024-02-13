@@ -1,15 +1,15 @@
 import React from 'react';
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 
-const Graph = ({ data }) => {
+const GenderGraph = ({ data }) => {
   // Convert the API data format to the required format
-  const yourGraphData = data.map(item => ({
-    name: item.name,
-    value: item.value
+  const yourGraphData = Object.keys(data).map(gender => ({
+    name: gender,
+    value: data[gender]
   }));
 
   // Define colors for each data segment
-  const COLORS = ['#00C49F', '#e47f7f', '#FFBB28', '#FF8042', '#DDBDF1', '#FF6565'];
+  const COLORS = ['#e47f7f', '#00C49F', '#000000']; // Pink for 'F', Blur for 'M', Black for 'O'
 
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -34,4 +34,4 @@ const Graph = ({ data }) => {
   );
 };
 
-export default Graph;
+export default GenderGraph;
