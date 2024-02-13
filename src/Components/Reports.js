@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import Graph from './Graph';
 
 
 const Reports = () => {
@@ -134,20 +135,49 @@ const Reports = () => {
             console.error('Error fetching total students by course:', error);
         }
     };
+    const [courseStats, setCourseStats] = useState([]);
+    const [batchStats, setBatchStats] = useState([]);
+
+
+
+    const fetchCertificationStatsForCourse = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForCourse/${courseId}`);
+            setCourseStats(response.data);
+        } catch (error) {
+            setError('Error fetching certification stats for course:', error.message);
+        }
+    };
+
+    const fetchCertificationStatsForBatch = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForBatch/${batchId}`);
+            setBatchStats(response.data);
+        } catch (error) {
+            setError('Error fetching certification stats for batch:', error.message);
+        }
+    };
+
+
     useEffect(() => {
         const fetchTotalAmount = async () => {
             if (batchId) {
+               
                 await fetchTotalAmountByBatch();
+                await fetchCertificationStatsForBatch();
                 await fetchTotalStudentsByBatch();
             } else if (courseId) {
+                
                 await fetchTotalAmountByCourse();
+                await fetchCertificationStatsForCourse()
                 await fetchTotalStudentsByCourse();
             }
         };
-        
+
         fetchTotalAmount();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [batchId, courseId]);
+ 
 
     useEffect(() => {
         getCourse();
@@ -241,6 +271,40 @@ const Reports = () => {
                         </div>
                     </div>
                 </div>
+                <div className="col-md-5 ">
+                    <div className="card bg-light m-2 p-2">
+                        <div className="card-body">
+                            <div className="row ">
+                                <div className="col-12">
+                                    <label className="form-label select-label mx-2">Course</label>
+                                    <select className="select" value={courseId} onChange={handleCourseChange}>
+                                        <option value="">Select a course</option>
+                                        {course.map((cour) => (
+                                            <option key={cour._id} value={cour._id}>
+                                                {cour.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <label className="form-label select-label mx-2">Batch</label>
+                                    <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                        <option value="">Select a Batch</option>
+                                        {Batch.length ? (
+                                            Batch.map((bat) => (
+                                                <option key={bat._id} value={bat._id}>
+                                                    {bat.name}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option value="" disabled>Loading batches...</option>
+                                        )}
+                                    </select>
+                                </div>
+                            </div>
+                           
+                      {courseId && batchId ? <Graph data={batchStats}/> : courseId? <Graph data={courseStats}/>: 'No dat to fetch'}
+                        </div>
+                    </div>
+                </div>
 
                 <div className="col-md-4">
                     <div className="card bg-success text-white m-2">
@@ -258,8 +322,8 @@ const Reports = () => {
                         </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
     );
 };
