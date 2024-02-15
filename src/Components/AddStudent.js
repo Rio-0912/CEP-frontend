@@ -20,6 +20,7 @@ const AddStudent = (props) => {
     const [course, setcourse] = useState([]);
     const [courseId, setcourseId] = useState('');
     const [batchId, setBatchId] = useState('');
+    // eslint-disable-next-line
     const [listcategories, setlistCategories] = useState(['Open', 'OBC', 'SC/ST', 'EWS']);
     const [Batch, setBatch] = useState([]);
     // eslint-disable-next-line
@@ -79,7 +80,7 @@ const AddStudent = (props) => {
             
         console.log(category);
             try {
-                const response = await axios.post(`http://localhost:9000/api/student/createStudent/${batchId}`, {
+                const response = await axios.post(`https://cep-backend.vercel.app/api/student/createStudent/${batchId}`, {
                     name,
                     gender,
                     DOB,
