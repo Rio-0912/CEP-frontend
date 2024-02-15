@@ -68,6 +68,11 @@ const Navbar = () => {
                                     </li>
                                 </>
                             )}
+                            <li className="nav-item">
+                                        <Link className="nav-link" aria-current="page" to="/addStudent">
+                                            Add Students
+                                        </Link>
+                                    </li>
                         </ul>
 
                         <form className="d-flex" role="search">

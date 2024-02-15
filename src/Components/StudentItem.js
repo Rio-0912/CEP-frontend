@@ -37,12 +37,12 @@ const StudentItem = ({ Students, getStudents }) => {
                         <div className='card'>
                             <div className='card-body'>
                                 <h5 className='card-title'>{stud.enrollmentNumber}</h5>
-                                <h6 className='card-title'>{stud.name} <strong>{stud.gender}</strong> {stud.DOB}  {stud.years}</h6>
+                                <h6 className='card-title'>{stud.name} <strong>{stud.gender}</strong> {stud.DOB}  {stud.category}</h6>
                                 <div className='card-text my-1'> <strong>Address:</strong> {stud.address}</div>
                                 <div className='card-text my-1'> <strong>Phone:</strong> {stud.phoneNo} </div>
                                 <div className='card-text my-1'> <strong>Email:</strong> {stud.email} </div>
                                 <div className='card-text my-1'> <strong>City:</strong> {stud.city} {stud.pincode}</div>
-                                <div className='card-text my-1'> <strong>Certicate:</strong> {stud.isCertificateIssued === false ? <span style={{ color: 'red', fontWeight: 900 }}>Not issued </span> : <span style={{ color: 'green', fontWeight: 900 }}>Issued</span>}</div>
+                                <div className='card-text my-1'> <strong>Certicate:</strong> {stud.isCertificateIssued === false ? <span style={{ color: 'red' }}>Not issued </span> : <span style={{ color: 'green', fontWeight: 900 }}>Issued</span>}</div>
                                 <div className='card-text my-1'> <strong>Amount:</strong>  {stud.amount}</div>
                                 <div className='card-text my-1'> <strong>Tranaction mumber:</strong>  {stud.transactionNumber}</div>
                                 <button className='btn mx-2 btn-outline-dark' onClick={() => studentDelete(stud._id)} >

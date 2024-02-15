@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import Graph from './Graph';
-import GenderGraph from './GenderGraph';
+import Graph from './Charts/Graph';
+import GenderGraph from './Charts/GenderGraph';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Loader from '../Assets/Loader.json'
+import LineChart from './Charts/LineChart';
 
 
 const Reports = () => {
@@ -15,6 +16,7 @@ const Reports = () => {
     const [courseId, setCourseId] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [category, setCategory] = useState([])
 
 
     const handleBatchChange = (e) => {
@@ -182,17 +184,37 @@ const Reports = () => {
             setError('Error fetching certification stats for batch:', error.message);
         }
     };
+    const fetchStudentCategoryByCourse = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/report/countStudentsByCategory/${courseId}`);
+            console.log(response.data);
+            setCategory(response.data);
+        } catch (error) {
+            setError('Error fetching category stats for course:', error.message);
+        }
+    };
+    const fetchStudentCategoryByBatch = async () => {
+        try {
+            const response = await axios.get(`http://localhost:9000/api/report/countStudentsByCategoryForBatch/${batchId}`);
+            console.log(response.data);
+            setCategory(response.data);
+        } catch (error) {
+            setError('Error fetching category stats for course:', error.message);
+        }
+    };
 
 
     useEffect(() => {
         const fetchTotalAmount = async () => {
             if (batchId) {
+
                 await fetchTotalAmountByBatch();
+                await fetchStudentCategoryByBatch();
                 await fetchCertificationStatsForBatch();
                 await fetchTotalStudentsByBatch();
                 await genderRatioForBatch()
             } else if (courseId) {
-
+                await fetchStudentCategoryByCourse()
                 await fetchTotalAmountByCourse();
                 await fetchCertificationStatsForCourse()
                 await fetchTotalStudentsByCourse();
@@ -240,168 +262,199 @@ const Reports = () => {
             ) : (
 
 
-          
-            <div className="row">
-                <div className="col-md-4 ">
-                    <div className="card bg-light m-2 p-2">
-                        <div className="card-body">
-                            <div className="row ">
-                                <div className="col-12">
-                                    <label className="form-label select-label mx-2">Course</label>
-                                    <select className="select" value={courseId} onChange={handleCourseChange}>
-                                        <option value="">Select a course</option>
-                                        {course.map((cour) => (
-                                            <option key={cour._id} value={cour._id}>
-                                                {cour.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <label className="form-label select-label mx-2">Batch</label>
-                                    <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
-                                        <option value="">Select a Batch</option>
-                                        {Batch.length ? (
-                                            Batch.map((bat) => (
-                                                <option key={bat._id} value={bat._id}>
-                                                    {bat.name}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option value="" disabled>Loading batches...</option>
-                                        )}
-                                    </select>
+
+                <div className="row">
+
+                    <div className="col-md-9 ">
+                        <div className="card bg-light m-2 p-2">
+                            <div className="card-body">
+                                <div className="row ">
+
                                 </div>
+                                <h3>Is Certified</h3>
+                                <LineChart />
+                                
                             </div>
-                            <h5 className="card-title">
-                                <h3>Total Amount Collected : <div className='text-success'>₹ {totalAmount}</div></h3>
-                            </h5>
                         </div>
                     </div>
-                </div>
-                <div className="col-md-4 ">
-                    <div className="card bg-light m-2 p-2">
-                        <div className="card-body">
-                            <div className="row ">
-                                <div className="col-12">
-                                    <label className="form-label select-label mx-2">Course</label>
-                                    <select className="select" value={courseId} onChange={handleCourseChange}>
-                                        <option value="">Select a course</option>
-                                        {course.map((cour) => (
-                                            <option key={cour._id} value={cour._id}>
-                                                {cour.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <label className="form-label select-label mx-2">Batch</label>
-                                    <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
-                                        <option value="">Select a Batch</option>
-                                        {Batch.length ? (
-                                            Batch.map((bat) => (
-                                                <option key={bat._id} value={bat._id}>
-                                                    {bat.name}
+
+                    <div className="col-md-3 ">
+                        <div className="card bg-light m-2 p-2">
+                            <div className="card-body">
+                                <div className="row ">
+                                    <div className="col-12">
+                                        <label className="form-label select-label mx-2">Course</label>
+                                        <select className="select" value={courseId} onChange={handleCourseChange}>
+                                            <option value="">Select a course</option>
+                                            {course.map((cour) => (
+                                                <option key={cour._id} value={cour._id}>
+                                                    {cour.name}
                                                 </option>
-                                            ))
-                                        ) : (
-                                            <option value="" disabled>Loading batches...</option>
-                                        )}
-                                    </select>
+                                            ))}
+                                        </select>
+                                        <label className="form-label select-label mx-2">Batch</label>
+                                        <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                            <option value="">Select a Batch</option>
+                                            {Batch.length ? (
+                                                Batch.map((bat) => (
+                                                    <option key={bat._id} value={bat._id}>
+                                                        {bat.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option value="" disabled>Loading batches...</option>
+                                            )}
+                                        </select>
+                                    </div>
                                 </div>
+                                <h3>Is Certified</h3>
+                                {courseId && batchId ? <Graph data={batchStats} /> : courseId ? <Graph data={courseStats} /> : 'No dat to fetch'}
                             </div>
-                            <h5 className="card-title">
-                                <h3>Total Students : <div className={`text-success`}>{totalStudents}</div></h3>
-                            </h5>
                         </div>
                     </div>
-                </div>
-                <div className="col-md-5 ">
-                    <div className="card bg-light m-2 p-2">
-                        <div className="card-body">
-                            <div className="row ">
-                                <div className="col-12">
-                                    <label className="form-label select-label mx-2">Course</label>
-                                    <select className="select" value={courseId} onChange={handleCourseChange}>
-                                        <option value="">Select a course</option>
-                                        {course.map((cour) => (
-                                            <option key={cour._id} value={cour._id}>
-                                                {cour.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <label className="form-label select-label mx-2">Batch</label>
-                                    <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
-                                        <option value="">Select a Batch</option>
-                                        {Batch.length ? (
-                                            Batch.map((bat) => (
-                                                <option key={bat._id} value={bat._id}>
-                                                    {bat.name}
+                    <div className="col-md-3 ">
+                        <div className="card bg-light m-2 p-2">
+                            <div className="card-body">
+                                <div className="row ">
+                                    <div className="col-12">
+                                        <label className="form-label select-label mx-2">Course</label>
+                                        <select className="select" value={courseId} onChange={handleCourseChange}>
+                                            <option value="">Select a course</option>
+                                            {course.map((cour) => (
+                                                <option key={cour._id} value={cour._id}>
+                                                    {cour.name}
                                                 </option>
-                                            ))
-                                        ) : (
-                                            <option value="" disabled>Loading batches...</option>
-                                        )}
-                                    </select>
+                                            ))}
+                                        </select>
+                                        <label className="form-label select-label mx-2">Batch</label>
+                                        <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                            <option value="">Select a Batch</option>
+                                            {Batch.length ? (
+                                                Batch.map((bat) => (
+                                                    <option key={bat._id} value={bat._id}>
+                                                        {bat.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option value="" disabled>Loading batches...</option>
+                                            )}
+                                        </select>
+                                    </div>
                                 </div>
+                                <h3>Gender Ratio</h3>
+                                {courseId && batchId ? <GenderGraph data={batchGender} /> : courseId ? <GenderGraph data={courseGender} /> : 'No dat to fetch'}
                             </div>
-                            <h3>Is Certified</h3>
-                            {courseId && batchId ? <Graph data={batchStats} /> : courseId ? <Graph data={courseStats} /> : 'No dat to fetch'}
                         </div>
                     </div>
-                </div>
-                <div className="col-md-5 ">
-                    <div className="card bg-light m-2 p-2">
-                        <div className="card-body">
-                            <div className="row ">
-                                <div className="col-12">
-                                    <label className="form-label select-label mx-2">Course</label>
-                                    <select className="select" value={courseId} onChange={handleCourseChange}>
-                                        <option value="">Select a course</option>
-                                        {course.map((cour) => (
-                                            <option key={cour._id} value={cour._id}>
-                                                {cour.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <label className="form-label select-label mx-2">Batch</label>
-                                    <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
-                                        <option value="">Select a Batch</option>
-                                        {Batch.length ? (
-                                            Batch.map((bat) => (
-                                                <option key={bat._id} value={bat._id}>
-                                                    {bat.name}
+                    <div className="col-md-3 ">
+                        <div className="card bg-light m-2 p-2">
+                            <div className="card-body">
+                                <div className="row ">
+                                    <div className="col-12">
+                                        <label className="form-label select-label mx-2">Course</label>
+                                        <select className="select" value={courseId} onChange={handleCourseChange}>
+                                            <option value="">Select a course</option>
+                                            {course.map((cour) => (
+                                                <option key={cour._id} value={cour._id}>
+                                                    {cour.name}
                                                 </option>
-                                            ))
-                                        ) : (
-                                            <option value="" disabled>Loading batches...</option>
-                                        )}
-                                    </select>
+                                            ))}
+                                        </select>
+                                        <label className="form-label select-label mx-2">Batch</label>
+                                        <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                            <option value="">Select a Batch</option>
+                                            {Batch.length ? (
+                                                Batch.map((bat) => (
+                                                    <option key={bat._id} value={bat._id}>
+                                                        {bat.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option value="" disabled>Loading Category...</option>
+                                            )}
+                                        </select>
+                                    </div>
                                 </div>
+                                <h3>Category Ratio</h3>
+                                {courseId && batchId ? <Graph data={category} /> : courseId ? <Graph data={category} /> : 'No data to fetch'}
                             </div>
-                            <h3>Gender Ratio</h3>
-                            {courseId && batchId ? <GenderGraph data={batchGender} /> : courseId ? <GenderGraph data={courseGender} /> : 'No dat to fetch'}
+                        </div>
+                    </div>
+
+                    <div className="col-md-4 ">
+                        <div className="card bg-light m-2 p-2">
+                            <div className="card-body">
+                                <div className="row ">
+                                    <div className="col-12">
+                                        <label className="form-label select-label mx-2">Course</label>
+                                        <select className="select" value={courseId} onChange={handleCourseChange}>
+                                            <option value="">Select a course</option>
+                                            {course.map((cour) => (
+                                                <option key={cour._id} value={cour._id}>
+                                                    {cour.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <label className="form-label select-label mx-2">Batch</label>
+                                        <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                            <option value="">Select a Batch</option>
+                                            {Batch.length ? (
+                                                Batch.map((bat) => (
+                                                    <option key={bat._id} value={bat._id}>
+                                                        {bat.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option value="" disabled>Loading batches...</option>
+                                            )}
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 className="card-title">
+                                    <h3>Total Amount Collected : <div className='text-success'>₹ {totalAmount}</div></h3>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4 ">
+                        <div className="card bg-light m-2 p-2">
+                            <div className="card-body">
+                                <div className="row ">
+                                    <div className="col-12">
+                                        <label className="form-label select-label mx-2">Course</label>
+                                        <select className="select" value={courseId} onChange={handleCourseChange}>
+                                            <option value="">Select a course</option>
+                                            {course.map((cour) => (
+                                                <option key={cour._id} value={cour._id}>
+                                                    {cour.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <label className="form-label select-label mx-2">Batch</label>
+                                        <select className="select dropdown-toogle" disabled={!Batch.length} value={batchId} onChange={handleBatchChange}>
+                                            <option value="">Select a Batch</option>
+                                            {Batch.length ? (
+                                                Batch.map((bat) => (
+                                                    <option key={bat._id} value={bat._id}>
+                                                        {bat.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option value="" disabled>Loading batches...</option>
+                                            )}
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 className="card-title">
+                                    <h3>Total Students : <div className={`text-success`}>{totalStudents}</div></h3>
+                                </h5>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="col-md-4">
-                    <div className="card bg-success text-white m-2">
-                        <div className="card-body">
-                            <h2 className="card-title">This is a title</h2>
-                            <p className="card-text">This is body text inside my Bootstrap card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="card bg-success text-white m-2">
-                        <div className="card-body">
-                            <h2 className="card-title">This is a title</h2>
-                            <p className="card-text">This is body text inside my Bootstrap card.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-           
             )}
-              {!loading && course.length === 0 && <p>No data available</p>}
+            {!loading && course.length === 0 && <p>No data available</p>}
         </div>
     );
 };

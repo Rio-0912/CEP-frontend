@@ -20,10 +20,12 @@ const AddStudent = (props) => {
     const [course, setcourse] = useState([]);
     const [courseId, setcourseId] = useState('');
     const [batchId, setBatchId] = useState('');
+    const [listcategories, setlistCategories] = useState(['Open', 'OBC', 'SC/ST', 'EWS']);
     const [Batch, setBatch] = useState([]);
     // eslint-disable-next-line
     const [loadingBatches, setLoadingBatches] = useState(false);
     const [isCertified, setIsCertified] = useState(false);
+    const [category, setcategory] = useState('OBC');
 
     const getCourse = async () => {
         const deptId = localStorage.getItem('departmentId');
@@ -71,70 +73,66 @@ const AddStudent = (props) => {
         }
     }, [courseId]);
 
-
-    const handleFormSubmit = async (event) => {
-        event.preventDefault();
-        console.log(' i got clikecd',Batch,batchId);
-        window.scrollTo(0, 0)
-        try {
-            const response = await axios.post(`https://cep-backend.vercel.app/api/student/createStudent/${batchId}`, {
-                name,
-                gender,
-                DOB,
-                phoneNo,
-                address,
-                city,
-                pincode,
-                email,
-                transactionNumber,
-                amount,
-                isCertified,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'deptId': localStorage.getItem('departmentId'),
-                    'userId': localStorage.getItem('userId'),
-                    'authority': localStorage.getItem('authority'),
-                },
-            });
-    
-            console.log('Response:', response.data);
-            // Check if the request was successful
-            if (response.status === 201) {
-                console.log('completed');
-            } else {
-                console.log('completed');
+   
+        const handleFormSubmit = async (event) => {
+            event.preventDefault();
+            
+        console.log(category);
+            try {
+                const response = await axios.post(`http://localhost:9000/api/student/createStudent/${batchId}`, {
+                    name,
+                    gender,
+                    DOB,
+                    phoneNo,
+                    category,
+                    address,
+                    city,
+                    pincode,
+                    email,
+                    transactionNumber,
+                    amount,
+                    isCertified,
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'deptId': localStorage.getItem('departmentId'),
+                        'userId': localStorage.getItem('userId'),
+                        'authority': localStorage.getItem('authority'),
+                    },
+                });
+        
+                console.log('Response:', response.data);
+        
+                // Reset your form fields here
+                // setName('');
+                // setDOB('');
+                // setAddress('');
+                // setCity('');
+                // setPincode('');
+                // setGender('');
+                // setEmail('');
+                // setPhoneNo('');
+                // setTransactionNumber('');
+                // setAmount(0);
+                // setIsCertified(false);
+                // setcourse([]);
+                // setcourseId('');
+                // setBatch([]);
+                // setBatchId('');
+                // setSelectedCategory('');
+        
+                showAlert('Student added successfully', 'success');
+        
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    showAlert(error.response.data.error, 'danger');
+                } else {
+                    showAlert('An error occurred while adding the student', 'danger');
+                    console.error("Error adding student:", error);
+                }
             }
-            setAddress('');
-            setName('');
-            setAmount('');
-            setPhoneNo('');
-            setCity('');
-            setEmail('');
-            setDOB('');
-            setGender('');
-            setIsCertified(false);
-            setPincode('');
-            setTransactionNumber('');
-            setBatchId('')
-            setcourseId('')
-    
-            showAlert('Student added successfully ', 'success');
-    
-        } catch (error) {
-            // Handle other errors
-            if (error.response && error.response.status === 400) {
-                // If it's a 400 Bad Request, display the error message
-
-                showAlert(error.response.data.error, 'danger');
-            } else {
-                // Display a generic error message for other errors
-                showAlert('An error occurred while adding the student', 'danger');
-                console.error("Error adding student:", error);
-            }
-        }
-    };
-    
+        };
+        
 
     useEffect(() => {
         getCourse();
@@ -148,15 +146,15 @@ const AddStudent = (props) => {
 
     const handleCourseChange = (e) => {
         setcourseId(e.target.value);
-        console.log(courseId);
     };
 
     const handleBatchChange = (e) => {
         setBatchId(e.target.value);
-        console.log(batchId);
     };
 
-
+    const handleCategoryChange = (e) => {
+        setcategory(e.target.value);
+    };
     return (
         <div>
 
@@ -284,6 +282,19 @@ const AddStudent = (props) => {
                                                         </option>
                                                     ))
                                                 )}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <label className="form-label select-label mx-2">Category</label>
+                                            <select className="select" value={category} onChange={handleCategoryChange}>
+                                                <option value="">Select a category</option>
+                                                {listcategories.map((cat) => (
+                                                    <option key={cat} value={cat}>
+                                                        {cat}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
