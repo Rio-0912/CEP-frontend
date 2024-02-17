@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Auth from '../Middleware/auth';
+// ... (other imports)
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -10,15 +11,17 @@ const Navbar = () => {
         window.location.reload();
         navigate('/');
     };
-    let userAuthority
-    let departmentId
+
+    let userAuthority;
+    let departmentId;
+
     if (localStorage.getItem('authority')) {
-
-         userAuthority= localStorage.getItem('authority');
+        userAuthority = localStorage.getItem('authority');
     } else if (localStorage.getItem('departmentId')) {
-
-         departmentId = localStorage.getItem('departmentId');
+        departmentId = localStorage.getItem('departmentId');
     }
+
+    const isCourseRoute = window.location.pathname === '/course'; // Check if the current route is /course
 
     return (
         <div>
@@ -40,7 +43,7 @@ const Navbar = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            {departmentId && (
+                            {departmentId && isCourseRoute && (
                                 <>
                                     <li className="nav-item">
                                         <Link className="nav-link" aria-current="page" to="/reports">
@@ -56,11 +59,7 @@ const Navbar = () => {
                             )}
                             {userAuthority === 'Principal' && (
                                 <>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" aria-current="page" to="/reports">
-                                            Reports
-                                        </Link>
-                                    </li>
+
                                     <li className="nav-item">
                                         <Link className="nav-link" aria-current="page" to="/home">
                                             Departments
@@ -68,11 +67,24 @@ const Navbar = () => {
                                     </li>
                                 </>
                             )}
-                            <li className="nav-item">
-                                        <Link className="nav-link" aria-current="page" to="/addStudent">
-                                            Add Students
+                            {userAuthority === 'Principal' && isCourseRoute && (
+                                <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" aria-current="page" to="/reports">
+                                            Reports
                                         </Link>
                                     </li>
+
+                                </>
+                            )}
+
+                            {isCourseRoute && (
+                                <li className="nav-item">
+                                    <Link className="nav-link" aria-current="page" to="/addStudent">
+                                        Add Students
+                                    </Link>
+                                </li>
+                            )}
                         </ul>
 
                         <form className="d-flex" role="search">

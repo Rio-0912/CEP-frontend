@@ -22,7 +22,7 @@ function App() {
     })
     setTimeout(() => {
       setalert(null)
-    }, 5000);
+    }, 1200);
   }
   return (
     <>

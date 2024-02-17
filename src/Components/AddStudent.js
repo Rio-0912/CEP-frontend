@@ -1,6 +1,7 @@
-import React, { useState, useEffect,useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment-timezone';
 
 const AddStudent = (props) => {
     const { showAlert } = props;
@@ -20,14 +21,22 @@ const AddStudent = (props) => {
     const [course, setcourse] = useState([]);
     const [courseId, setcourseId] = useState('');
     const [batchId, setBatchId] = useState('');
+    
     // eslint-disable-next-line
     const [listcategories, setlistCategories] = useState(['Open', 'OBC', 'SC/ST', 'EWS']);
     const [Batch, setBatch] = useState([]);
     // eslint-disable-next-line
     const [loadingBatches, setLoadingBatches] = useState(false);
     const [isCertified, setIsCertified] = useState(false);
-    const [category, setcategory] = useState('OBC');
+    const [category, setcategory] = useState('');
 
+
+    const getISTCurrentDate = () => {
+        // Function to get current date in DD/MM/YYYY format according to IST
+        const istDate = moment().tz('Asia/Kolkata').format('DD/MM/YYYY');
+        return istDate;
+    };
+    const [createdAt, setCreatedAt] = useState(getISTCurrentDate());
     const getCourse = async () => {
         const deptId = localStorage.getItem('departmentId');
 
@@ -74,66 +83,67 @@ const AddStudent = (props) => {
         }
     }, [courseId]);
 
-   
-        const handleFormSubmit = async (event) => {
-            event.preventDefault();
-            
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+
         console.log(category);
-            try {
-                const response = await axios.post(`https://cep-backend.vercel.app/api/student/createStudent/${batchId}`, {
-                    name,
-                    gender,
-                    DOB,
-                    phoneNo,
-                    category,
-                    address,
-                    city,
-                    pincode,
-                    email,
-                    transactionNumber,
-                    amount,
-                    isCertified,
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'deptId': localStorage.getItem('departmentId'),
-                        'userId': localStorage.getItem('userId'),
-                        'authority': localStorage.getItem('authority'),
-                    },
-                });
-        
-                console.log('Response:', response.data);
-        
-                // Reset your form fields here
-                // setName('');
-                // setDOB('');
-                // setAddress('');
-                // setCity('');
-                // setPincode('');
-                // setGender('');
-                // setEmail('');
-                // setPhoneNo('');
-                // setTransactionNumber('');
-                // setAmount(0);
-                // setIsCertified(false);
-                // setcourse([]);
-                // setcourseId('');
-                // setBatch([]);
-                // setBatchId('');
-                // setSelectedCategory('');
-        
-                showAlert('Student added successfully', 'success');
-        
-            } catch (error) {
-                if (error.response && error.response.status === 400) {
-                    showAlert(error.response.data.error, 'danger');
-                } else {
-                    showAlert('An error occurred while adding the student', 'danger');
-                    console.error("Error adding student:", error);
-                }
+        try {
+            const response = await axios.post(`https://cep-backend.vercel.app/api/student/createStudent/${batchId}`, {
+                name,
+                gender,
+                DOB,
+                phoneNo,
+                category,
+                address,
+                city,
+                pincode,
+                email,
+                transactionNumber,
+                amount,
+                isCertified,
+                // createdAt
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'deptId': localStorage.getItem('departmentId'),
+                    'userId': localStorage.getItem('userId'),
+                    'authority': localStorage.getItem('authority'),
+                },
+            });
+
+            console.log('Response:', response.data);
+
+            // Reset your form fields here
+            // setName('');
+            // setDOB('');
+            // setAddress('');
+            // setCity('');
+            // setPincode('');
+            // setGender('');
+            // setEmail('');
+            // setPhoneNo('');
+            // setTransactionNumber('');
+            // setAmount(0);
+            // setIsCertified(false);
+            // setcourse([]);
+            // setcourseId('');
+            // setBatch([]);
+            // setBatchId('');
+            // setSelectedCategory('');
+
+            showAlert('Student added successfully', 'success');
+
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                showAlert(error.response.data.error, 'danger');
+            } else {
+                showAlert('An error occurred while adding the student', 'danger');
+                console.error("Error adding student:", error);
             }
-        };
-        
+        }
+    };
+
 
     useEffect(() => {
         getCourse();
@@ -245,7 +255,22 @@ const AddStudent = (props) => {
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div className="col-md-6 mb-3">
+                                        <div className="form-outline datepicker w-100">
+                                            <input
+                                                required
+                                                disabled
+                                                type="text"
+                                                className="form-control"
+                                                id="createdAt"
+                                                value={createdAt}
+                                                onChange={(e) => setCreatedAt(e.target.value)}
+                                            />
+                                            <label htmlFor="createdAt" className="form-label">
+                                                Created At (DD/MM/YYYY)
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col-12">
                                             <label className="form-label select-label mx-2">Is Certified</label>
@@ -256,6 +281,8 @@ const AddStudent = (props) => {
                                         </div>
 
                                     </div>
+
+                                   
                                     <div className="row">
                                         <div className="col-12">
                                             <label className="form-label select-label mx-2">Course</label>
@@ -273,7 +300,7 @@ const AddStudent = (props) => {
                                         <div className="col-12">
                                             <label className="form-label select-label mx-2">Batch</label>
                                             <select className="select" value={batchId} onChange={handleBatchChange}>
-                                            <option value="">Select a Batch</option>
+                                                <option value="">Select a Batch</option>
                                                 {loadingBatches ? (
                                                     <option value="" disabled>Loading batches...</option>
                                                 ) : (

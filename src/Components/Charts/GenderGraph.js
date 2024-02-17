@@ -12,7 +12,7 @@ const GenderGraph = ({ data }) => {
   const COLORS = ['#e47f7f', '#00C49F', '#000000']; // Pink for 'F', Blur for 'M', Black for 'O'
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Tooltip />
         <Pie
@@ -21,7 +21,7 @@ const GenderGraph = ({ data }) => {
           isAnimationActive={true}
           cx="50%"
           cy="50%"
-          outerRadius={80}
+          outerRadius={70}
           fill="#8884d8"
           label
         >
