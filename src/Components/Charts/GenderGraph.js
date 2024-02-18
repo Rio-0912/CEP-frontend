@@ -14,7 +14,7 @@ const GenderGraph = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height={200}>
       <PieChart>
-        <Tooltip />
+        <Tooltip useTranslate3d/>
         <Pie
           dataKey="value"
           data={yourGraphData}

@@ -11,8 +11,8 @@ const Batches = ({ showAlert }) => {
 
     const [batch, setbatch] = useState([]);
     const courseId = localStorage.getItem('courseId');
-    const history = useNavigate();
     const [loading, setLoading] = useState(true);
+    const history = useNavigate();
     const checkHOD = useCallback(async () => {
         try {
             let email;

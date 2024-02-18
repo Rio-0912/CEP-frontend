@@ -21,7 +21,8 @@ const Navbar = () => {
         departmentId = localStorage.getItem('departmentId');
     }
 
-    const isCourseRoute = window.location.pathname === '/course'; // Check if the current route is /course
+    const isHomeRoute = window.location.pathname === '/home'; // Check if the current route is /course
+    const isLoginRoute = window.location.pathname === '/'; // Check if the current route is /course
 
     return (
         <div>
@@ -43,7 +44,7 @@ const Navbar = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            {departmentId && isCourseRoute && (
+                            {departmentId && !isHomeRoute && !isLoginRoute && (
                                 <>
                                     <li className="nav-item">
                                         <Link className="nav-link" aria-current="page" to="/reports">
@@ -67,7 +68,7 @@ const Navbar = () => {
                                     </li>
                                 </>
                             )}
-                            {userAuthority === 'Principal' && isCourseRoute && (
+                            {userAuthority === 'Principal' && !isHomeRoute && !isLoginRoute && (
                                 <>
                                     <li className="nav-item">
                                         <Link className="nav-link" aria-current="page" to="/reports">
@@ -78,7 +79,7 @@ const Navbar = () => {
                                 </>
                             )}
 
-                            {isCourseRoute && (
+                            { !isHomeRoute && !isLoginRoute && (
                                 <li className="nav-item">
                                     <Link className="nav-link" aria-current="page" to="/addStudent">
                                         Add Students

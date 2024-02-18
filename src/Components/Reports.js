@@ -5,6 +5,8 @@ import GenderGraph from './Charts/GenderGraph';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Loader from '../Assets/Loader.json'
 import LineChart from './Charts/LineChart';
+import Auth from '../Middleware/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,7 +23,49 @@ const Reports = () => {
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [gettingCountOfStudentsAsPerDate, setGettingCountOfStudentsAsPerDate] = useState([])
+    const history = useNavigate();
+    const checkHOD = useCallback(async () => {
+        try {
+            let email;
+            if (localStorage.getItem('email')) {
+                email = localStorage.getItem('email');
+            } else {
+                history('/');
+            }
+            const departmentId = localStorage.getItem('departmentId');
 
+            const response = await fetch(`https://cep-backend.vercel.app/api/auth/checkHOD`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    deptId: departmentId,
+                }),
+            });
+
+            console.log(response);
+
+            if (response.ok) {
+                const { name, email: responseEmail } = await response.json();
+
+                // Check if the email from the response is not equal to the stored email
+                if (responseEmail !== email) {
+                    // Use navigate to go to '/'
+                    history('/');
+                } else {
+                    // Set the name and email in local storage
+                    localStorage.setItem('deptName', name);
+                    localStorage.setItem('email', responseEmail);
+                }
+            } else {
+                console.error('Failed to check HOD:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error checking HOD:', error.message);
+        }
+    }, [history]);
     const handleBatchChange = (e) => {
         setBatchId(''); // Reset batchId when course changes
         setTotalAmount(0); // Reset totalAmount when course changes
@@ -125,7 +169,7 @@ const Reports = () => {
 
     const fetchTotalStudentsByBatch = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalStudentsByBatch/${batchId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/totalStudentsByBatch/${batchId}/${fromDate}/${toDate}`);
 
             if (response.data.success) {
                 setTotalStudents(response.data.totalStudents);
@@ -139,7 +183,7 @@ const Reports = () => {
 
     const fetchTotalStudentsByCourse = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalStudentsByCourse/${courseId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/totalStudentsByCourse/${courseId}/${fromDate}/${toDate}`);
 
             if (response.data.success) {
                 setTotalStudents(response.data.totalStudents);
@@ -159,7 +203,7 @@ const Reports = () => {
 
     const fetchCertificationStatsForCourse = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/certificationStatsForCourse/${courseId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForCourse/${courseId}/${fromDate}/${toDate}`);
             setCourseStats(response.data);
         } catch (error) {
             setError('Error fetching certification stats for course:', error.message);
@@ -168,7 +212,7 @@ const Reports = () => {
 
     const fetchCertificationStatsForBatch = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/certificationStatsForBatch/${batchId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForBatch/${batchId}/${fromDate}/${toDate}`);
             setBatchStats(response.data);
         } catch (error) {
             setError('Error fetching certification stats for batch:', error.message);
@@ -176,7 +220,7 @@ const Reports = () => {
     };
     const genderRatioForCourse = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/courseWiseGender/${courseId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/courseWiseGender/${courseId}/${fromDate}/${toDate}`);
             setcourseGender(response.data);
         } catch (error) {
             setError('Error fetching certification stats for course:', error.message);
@@ -185,7 +229,7 @@ const Reports = () => {
 
     const genderRatioForBatch = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/batchWiseGender/${batchId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/batchWiseGender/${batchId}/${fromDate}/${toDate}`);
             setbatchGender(response.data);
         } catch (error) {
             setError('Error fetching certification stats for batch:', error.message);
@@ -193,7 +237,7 @@ const Reports = () => {
     };
     const fetchStudentCategoryByCourse = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/countStudentsByCategory/${courseId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/countStudentsByCategory/${courseId}/${fromDate}/${toDate}`);
             console.log(response.data);
             setCategory(response.data);
         } catch (error) {
@@ -202,7 +246,7 @@ const Reports = () => {
     };
     const fetchStudentCategoryByBatch = async () => {
         try {
-            const response = await axios.get(`https://cep-backend.vercel.app/api/report/countStudentsByCategoryForBatch/${batchId}`);
+            const response = await axios.get(`http://localhost:9000/api/report/countStudentsByCategoryForBatch/${batchId}/${fromDate}/${toDate}`);
             console.log(response.data);
             setCategory(response.data);
         } catch (error) {
@@ -249,6 +293,7 @@ const Reports = () => {
     };
     useEffect(() => {
         const fetchTotalAmount = async () => {
+            checkHOD()
             if (batchId) {
 
                 await fetchTotalAmountByBatch();
@@ -296,7 +341,7 @@ const Reports = () => {
 
     return (
         <div className="container">
-
+            <div className="d-none"><Auth /></div>
             {loading ? (
 
                 <Player

@@ -16,10 +16,10 @@ const Graph = ({ data }) => {
       <PieChart>
         <Tooltip />
         <Pie
+          isAnimationActive={true}
           label
           dataKey="value"
           data={yourGraphData}
-          isAnimationActive={true}
           cx="50%"
           cy="50%"
           outerRadius={70}

@@ -22,6 +22,7 @@ const LineChart = ({ data }) => {
       <ResponsiveContainer width="100%" height={200}>
         {/* Use AreaChart with necessary components */}
         <AreaChart
+         isAnimationActive={true}
           width={250}
           height={350}
           data={transformedData}
