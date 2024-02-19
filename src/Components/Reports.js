@@ -415,17 +415,7 @@ const Reports = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-3 ">
-                            <div className="card bg-light m-2">
-                                <div className="card-body">
-
-                                    <h5 className="card-title">
-                                        On Going Course : <div className={`text-success`}>{totalStudents}</div>
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6 ">
+                        <div className="col-md-7 ">
                             <div className="card bg-light m-2">
                                 <div className="card-body">
                                     <div className="row ">
@@ -443,7 +433,7 @@ const Reports = () => {
                             <div className="card bg-light m-2">
                                 <div className="card-body">
 
-                                    <h3>Is Certified</h3>
+                                    <h5>Is Certified</h5>
                                     {courseId && batchId ? <Graph data={batchStats} /> : courseId ? <Graph data={courseStats} /> : 'No dat to fetch'}
                                 </div>
                             </div>
@@ -452,7 +442,7 @@ const Reports = () => {
                             <div className="card bg-light m-2">
                                 <div className="card-body">
 
-                                    <h3>Gender Ratio</h3>
+                                    <h5>Gender Ratio</h5>
                                     {courseId && batchId ? <GenderGraph data={batchGender} /> : courseId ? <GenderGraph data={courseGender} /> : 'No dat to fetch'}
                                 </div>
                             </div>
@@ -461,7 +451,7 @@ const Reports = () => {
                             <div className="card bg-light m-2">
                                 <div className="card-body">
 
-                                    <h3>Category Ratio</h3>
+                                    <h5>Category Ratio</h5>
                                     {courseId && batchId ? <Graph data={category} /> : courseId ? <Graph data={category} /> : 'No data to fetch'}
                                 </div>
                             </div>

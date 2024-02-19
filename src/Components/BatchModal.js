@@ -1,23 +1,27 @@
 import React, { useState, useRef } from 'react';
 
-const BatchModal = ({   addBatchViaMain }) => {
+const BatchModal = ({ addBatchViaMain }) => {
     const [name, setname] = useState('');
     const [cost, setcost] = useState('');
     const [time, settime] = useState('');
     const [faculty, setfaculty] = useState('');
+    const [endingDate, setEndingDate] = useState(''); // 
+    const [startingDate, setStartingDate] = useState('');
     const modalRef = useRef();
 
     const addBatch = async (e) => {
         e.preventDefault();
         try {
             // Call the addBatchViaMain function to handle adding the new batch
-            addBatchViaMain({ name, cost, time, faculty });
+            addBatchViaMain({ name, cost, time, faculty, startingDate, endingDate,deptId: localStorage.getItem('departmentId') }); // Include endingDate in the function call
 
             // Clear form fields after submitting
             setname('');
             setcost('');
             setfaculty('');
             settime('');
+            setStartingDate('');
+            setEndingDate(''); // Clear endingDate as well
 
             // Programmatically close the modal using the ref
             modalRef.current.click();
@@ -67,7 +71,18 @@ const BatchModal = ({   addBatchViaMain }) => {
                                     </label>
                                     <input type="text" className="form-control" id="faculty" value={faculty} onChange={(e) => setfaculty(e.target.value)} />
                                 </div>
-
+                                <div className="mb-3">
+                                    <label htmlFor="recipient-name" className="col-form-label">
+                                        Starting Date
+                                    </label>
+                                    <input type="date" className="form-control" id="startingDate" value={startingDate} onChange={(e) => setStartingDate(e.target.value)} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="recipient-name" className="col-form-label">
+                                        Ending Date
+                                    </label>
+                                    <input type="date" className="form-control" id="endingDate" value={endingDate} onChange={(e) => setEndingDate(e.target.value)} />
+                                </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                                         Close

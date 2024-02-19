@@ -34,7 +34,7 @@ const Batches = ({ showAlert }) => {
                 }),
             });
 
-            console.log(response);
+            // console.log(response);
 
             if (response.ok) {
                 const { name, email: responseEmail } = await response.json();
@@ -60,9 +60,9 @@ const Batches = ({ showAlert }) => {
         try {
             const headers = {
                 'Content-Type': 'application/json',
+                'deptId': localStorage.getItem('departmentId'),
                 'userID': localStorage.getItem('userId'),
                 'authority': localStorage.getItem('authority'),
-                'deptId': localStorage.getItem('departmentId'),
             };
 
             // Add departmentId to headers only if HOD access
@@ -70,7 +70,7 @@ const Batches = ({ showAlert }) => {
                 headers['deptId'] = localStorage.getItem('departmentId');
             }
 
-            await axios.post(`https://cep-backend.vercel.app/api/batch/createBatch/${courseId}`, newBatch, {
+            await axios.post(`http://localhost:9000/api/batch/createBatch/${courseId}`, newBatch, {
                 headers: headers,
             });
 

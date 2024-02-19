@@ -45,7 +45,8 @@ const BatchItem = ({ getBatches, batch, showAlert }) => {
                                 <th>Cost</th>
                                 <th>Time</th>
                                 <th>Faculty</th>
-                                <th></th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,6 +56,8 @@ const BatchItem = ({ getBatches, batch, showAlert }) => {
                                     <td>{bat.cost}</td>
                                     <td>{bat.time}</td>
                                     <td>{bat.faculty}</td>
+                                    <td>{bat.startingDate}</td>
+                                    <td>{bat.endingDate}</td>
                                     <td>
                                         <Link className="fa-solid fa-trash btn btn-outline-dark mx-1" onClick={(e) => batchDelete(bat._id)}></Link>
                                         <Link className="fa-solid fa-arrow-right btn btn-outline-dark" to={'/student'} onClick={() => {localStorage.setItem('batchId',bat._id); localStorage.setItem('batchName', bat.name) }}></Link>
