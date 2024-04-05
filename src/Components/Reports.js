@@ -169,7 +169,7 @@ const Reports = () => {
 
     const fetchTotalStudentsByBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/totalStudentsByBatch/${batchId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalStudentsByBatch/${batchId}/${fromDate}/${toDate}`);
 
             if (response.data.success) {
                 setTotalStudents(response.data.totalStudents);
@@ -183,7 +183,7 @@ const Reports = () => {
 
     const fetchTotalStudentsByCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/totalStudentsByCourse/${courseId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/totalStudentsByCourse/${courseId}/${fromDate}/${toDate}`);
 
             if (response.data.success) {
                 setTotalStudents(response.data.totalStudents);
@@ -203,7 +203,7 @@ const Reports = () => {
 
     const fetchCertificationStatsForCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForCourse/${courseId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/certificationStatsForCourse/${courseId}/${fromDate}/${toDate}`);
             setCourseStats(response.data);
         } catch (error) {
             setError('Error fetching certification stats for course:', error.message);
@@ -212,7 +212,7 @@ const Reports = () => {
 
     const fetchCertificationStatsForBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/certificationStatsForBatch/${batchId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/certificationStatsForBatch/${batchId}/${fromDate}/${toDate}`);
             setBatchStats(response.data);
         } catch (error) {
             setError('Error fetching certification stats for batch:', error.message);
@@ -220,7 +220,7 @@ const Reports = () => {
     };
     const genderRatioForCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/courseWiseGender/${courseId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/courseWiseGender/${courseId}/${fromDate}/${toDate}`);
             setcourseGender(response.data);
         } catch (error) {
             setError('Error fetching certification stats for course:', error.message);
@@ -229,7 +229,7 @@ const Reports = () => {
 
     const genderRatioForBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/batchWiseGender/${batchId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/batchWiseGender/${batchId}/${fromDate}/${toDate}`);
             setbatchGender(response.data);
         } catch (error) {
             setError('Error fetching certification stats for batch:', error.message);
@@ -237,7 +237,7 @@ const Reports = () => {
     };
     const fetchStudentCategoryByCourse = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/countStudentsByCategory/${courseId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/countStudentsByCategory/${courseId}/${fromDate}/${toDate}`);
             console.log(response.data);
             setCategory(response.data);
         } catch (error) {
@@ -246,7 +246,7 @@ const Reports = () => {
     };
     const fetchStudentCategoryByBatch = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/report/countStudentsByCategoryForBatch/${batchId}/${fromDate}/${toDate}`);
+            const response = await axios.get(`https://cep-backend.vercel.app/api/report/countStudentsByCategoryForBatch/${batchId}/${fromDate}/${toDate}`);
             console.log(response.data);
             setCategory(response.data);
         } catch (error) {
