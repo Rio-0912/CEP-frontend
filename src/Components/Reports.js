@@ -176,7 +176,7 @@ const Reports = () => {
             } else {
                 console.error(response.data.error || 'Failed to fetch total students');
             }
-        } catch (error) {
+        } catch (error) {       
             console.error('Error fetching total students by batch:', error);
         }
     };
